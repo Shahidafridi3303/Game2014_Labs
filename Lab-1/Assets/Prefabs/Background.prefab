@@ -99,4 +99,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _spawnPosition: {x: 0, y: 8, z: 0}
-  _screenBoundaries: {x: 0, y: -8}
+  _boundary:
+    max: 0
+    min: -7

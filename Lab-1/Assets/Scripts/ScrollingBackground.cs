@@ -6,7 +6,7 @@ public class ScrollingBackground : MonoBehaviour
 {
     [SerializeField] float _speed = 5;
     [SerializeField] Vector3 _spawnPosition;
-    Boundaries _boundaries;
+    [SerializeField] private Boundaries _boundary;
 
     Vector3 _direction = Vector3.down;
 
@@ -21,9 +21,9 @@ public class ScrollingBackground : MonoBehaviour
     {   
         transform.position = transform.position + _direction * _speed * Time.deltaTime;
 
-        //if (transform.position.y < _screenBoundaries.y)
-        //{
-        //    transform.position = _spawnPosition;
-        //}
+        if (transform.position.y < _boundary.min)
+        {
+            transform.position = _spawnPosition;
+        }
     }
 }

@@ -86,4 +86,9 @@ public class PlayerBehaviour : MonoBehaviour
             transform.position = new Vector3(transform.position.x, _verticalBoundary.min, 0);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Ohh Noo! We got hit Captain!!!");
+    }
 }

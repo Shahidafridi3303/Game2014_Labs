@@ -22,8 +22,10 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Move enemy vertically and horizontally
-        transform.position = new Vector2(transform.position.x + _horizontalspeed * Time.deltaTime, transform.position.y + _verticalspeed * Time.deltaTime);
+        //Move enemy vertically and horizontally
+        transform.position = new Vector2(Mathf.PingPong(_horizontalspeed * Time.time, _horizontalBoundry.max - _horizontalBoundry.min) + _horizontalBoundry.min
+            /*transform. position. x + _horizontalSpeed * Time. deltaTime*/
+            , transform.position.y + _verticalspeed * Time.deltaTime);
 
         //check if player off the sceen from bottom, if yes, reset enemy
         if (transform.position.y < _verticalBoundry.min)
@@ -31,11 +33,11 @@ public class EnemyBehaviour : MonoBehaviour
             Reset();
         }
 
-        // checks if player off the screen from sides, if yes, change horizontal speed to otther direction
-        if (transform.position.x > _horizontalBoundry.max || transform.position.x < _horizontalBoundry.min)
-        {
-            _horizontalspeed = -_horizontalspeed;
-        }
+        // checks if player off the screen from sides, if yes, change horizontal speed to other direction
+        //if (transform.position.x > _horizontalBoundry.max || transform.position.x < _horizontalBoundry.min)
+        //{
+        //    _horizontalspeed = -_horizontalspeed;
+        //}
     }
 
     private void Reset() // it reset the enmy's position and speed

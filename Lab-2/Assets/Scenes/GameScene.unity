@@ -231,6 +231,7 @@ MonoBehaviour:
   _verticalBoundary:
     max: -0.92
     min: -3.81
+  _isTestMobile: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

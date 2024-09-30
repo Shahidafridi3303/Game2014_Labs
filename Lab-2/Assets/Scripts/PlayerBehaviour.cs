@@ -94,8 +94,10 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("Hello");
            _gamecontroller.ChangeScore(9);
+           //Destroy(collision.gameObject);
+           //collision.gameObject.SetActive(false);
+           StartCoroutine(collision.GetComponent<EnemyBehaviour>().DyingRoutime());
         }
     }
 }

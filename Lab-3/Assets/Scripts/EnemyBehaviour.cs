@@ -12,6 +12,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     [SerializeField] Boundaries _verticalBoundry;
     [SerializeField] Boundaries _horizontalBoundry;
+    [SerializeField][Range(0.01f, 1.00f)] float _shootingCoolDownTime;
+    [SerializeField] Transform _shootingPoint;
+
+    GameObject _bulletPrefab;
 
     SpriteRenderer _spriteRenderer;
 
@@ -21,7 +25,10 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         Reset();
+        StartCoroutine(ShootingRoutine());
+
     }
 
     // Update is called once per frame
@@ -51,6 +58,16 @@ public class EnemyBehaviour : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         _spriteRenderer.enabled = false;
         GetComponent<Collider2D>().enabled = false;
+    }
+
+    IEnumerator ShootingRoutine()
+    {
+        GameObject bullet = Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        bullet.transform.eulerAngles = new Vector3(0, 0, 180);
+        bullet.GetComponent<SpriteRenderer>().color = Color.green;
+        bullet.GetComponent<BulletBehavior>().RelativeSpeedAddision(Mathf.Abs(_verticalspeed));
+        yield return new WaitForSeconds(_shootingCoolDownTime);
+        StartCoroutine(ShootingRoutine());
     }
 
     private void Reset() // it reset the enemy's position and speed

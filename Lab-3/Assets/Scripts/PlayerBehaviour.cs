@@ -7,13 +7,15 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] float _speed = 3; //changing speed
     [SerializeField] Boundaries _horizontalBoundary, _verticalBoundary;
     [SerializeField] bool _isTestMobile;
+    [SerializeField] [Range(0.01f, 1.00f)] float _shootingCoolDownTime;
+    [SerializeField] Transform _shootingPoint;
 
     Camera _camera;
     Vector2 _destination;
-
     GameController _gamecontroller;
-
     bool _isMobilePlatform = true;
+
+    GameObject _bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +23,14 @@ public class PlayerBehaviour : MonoBehaviour
         _camera = Camera.main;
         _gamecontroller = FindObjectOfType<GameController>();
 
+        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         if (!_isTestMobile)
         {
             _isMobilePlatform = Application.platform == RuntimePlatform.Android ||
                                 Application.platform == RuntimePlatform.IPhonePlayer;
         }
+
+        StartCoroutine(ShootingRoutine());
     }
 
     // Update is called once per frame
@@ -43,6 +48,13 @@ public class PlayerBehaviour : MonoBehaviour
         Move();
 
         CheckBoundaries();
+    }
+
+    IEnumerator ShootingRoutine()
+    {
+        Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        yield return new WaitForSeconds(_shootingCoolDownTime);
+        StartCoroutine(ShootingRoutine());
     }
 
     void Move()

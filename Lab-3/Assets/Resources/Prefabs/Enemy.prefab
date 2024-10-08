@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8688789441824187125}
   - component: {fileID: 7450701528149705545}
   - component: {fileID: 109187222181267219}
+  - component: {fileID: -4406555390046170654}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -59,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 3647596030449743391}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.002, y: 4.55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -143,7 +144,7 @@ MonoBehaviour:
     max: 1.76
     min: -1.76
   _shootingCoolDownTime: 0.65
-  _shootingPoint: {fileID: 6154056456886037972}
+  _shootingPosition: {fileID: 6154056456886037972}
 --- !u!58 &109187222181267219
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -179,3 +180,30 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.21
+--- !u!50 &-4406555390046170654
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647596030449743391}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

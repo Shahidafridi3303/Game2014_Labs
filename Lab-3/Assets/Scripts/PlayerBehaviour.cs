@@ -9,22 +9,22 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] bool _isTestMobile;
     [SerializeField] [Range(0.01f, 1.00f)] float _shootingCoolDownTime;
     [SerializeField] Transform _shootingPoint;
-
     Camera _camera;
     Vector2 _destination;
-    GameController _gamecontroller;
-    bool _isMobilePlatform = true;
 
-    GameObject _bulletPrefab;
+    GameController _gamecontroller;
     BulletManager _bulletManager;
 
+    //GameObject _bulletPrefab;
+
+    bool _isMobilePlatform = true;
     // Start is called before the first frame update
     void Start()
     {
         _camera = Camera.main;
         _gamecontroller = FindObjectOfType<GameController>();
         _bulletManager = FindObjectOfType<BulletManager>();
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
+        //_bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         if (!_isTestMobile)
         {
             _isMobilePlatform = Application.platform == RuntimePlatform.Android ||
@@ -54,10 +54,8 @@ public class PlayerBehaviour : MonoBehaviour
     IEnumerator ShootingRoutine()
     {
         // Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
-        GameObject bullet = _bulletManager.GetBullet();
+        GameObject bullet = _bulletManager.GetBullet(BulletType.PLAYER);
         bullet.transform.position = _shootingPoint.position;
-        bullet.transform.eulerAngles = Vector3.zero;
-        bullet.GetComponent<SpriteRenderer>().color = Color.white;
         yield return new WaitForSeconds(_shootingCoolDownTime);
         StartCoroutine(ShootingRoutine());
     }
@@ -111,10 +109,15 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-           _gamecontroller.ChangeScore(9);
+           _gamecontroller.ChangeScore(-9);
            //Destroy(collision.gameObject);
            //collision.gameObject.SetActive(false);
            StartCoroutine(collision.GetComponent<EnemyBehaviour>().DyingRoutime());
+        }
+
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            _gamecontroller.ChangeScore(-5);
         }
     }
 }

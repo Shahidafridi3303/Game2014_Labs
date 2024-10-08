@@ -15,9 +15,10 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField][Range(0.01f, 1.00f)] float _shootingCoolDownTime;
     [SerializeField] Transform _shootingPosition;
 
-    GameObject _bulletPrefab;
+    //GameObject _bulletPrefab;
 
     SpriteRenderer _spriteRenderer;
+    GameController _gameController;
 
     BulletManager _bulletManager;
 
@@ -27,8 +28,9 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
+        //_bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         _bulletManager = FindObjectOfType<BulletManager>();
+        _gameController = FindObjectOfType<GameController>();
         StartCoroutine(ShootingRoutine());
         Reset();
     }
@@ -64,10 +66,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator ShootingRoutine()
     {
-        GameObject bullet = _bulletManager.GetBullet(); //Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        GameObject bullet = _bulletManager.GetBullet(BulletType.ENEMY); //Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
         bullet.transform.position = _shootingPosition.position;
-        bullet.transform.eulerAngles = new Vector3(0, 0, 180);
-        bullet.GetComponent<SpriteRenderer>().color = Color.green;
         bullet.GetComponent<BulletBehavior>().RelativeSpeedAddision(Mathf.Abs(_verticalspeed));
         yield return new WaitForSeconds(_shootingCoolDownTime);
         StartCoroutine(ShootingRoutine());
@@ -82,5 +82,14 @@ public class EnemyBehaviour : MonoBehaviour
         transform.localScale = new Vector3(1f + Random.Range(-.3f, .3f), 1f + Random.Range(-.3f, .3f), 1f);
         _verticalspeed = Random.Range(_verticalSpeedRange.min, _verticalSpeedRange.max);
         _horizontalspeed = Random.Range(_horizontalSpeedRange.min, _horizontalSpeedRange.max);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerBullet"))
+        {
+            _gameController.ChangeScore(15);
+            StartCoroutine(DyingRoutime());
+        }
     }
 }

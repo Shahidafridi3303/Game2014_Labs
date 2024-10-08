@@ -11,10 +11,14 @@ public class BulletBehavior : MonoBehaviour
 
     [SerializeField]
     Boundaries _boundry;
+
+    private BulletManager _bulletManager;
+
     // Start is called before the first frame update
     void Start()
     {
         _baseSpeed = _speed;
+        _bulletManager = FindObjectOfType<BulletManager>();
     }
 
     // Update is called once per frame
@@ -24,7 +28,8 @@ public class BulletBehavior : MonoBehaviour
 
         if (transform.position.y > _boundry.max || transform.position.y < _boundry.min)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            _bulletManager.ReturnBullet(this.gameObject);
         }
     }
 

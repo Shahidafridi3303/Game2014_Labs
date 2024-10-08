@@ -13,11 +13,13 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] Boundaries _verticalBoundry;
     [SerializeField] Boundaries _horizontalBoundry;
     [SerializeField][Range(0.01f, 1.00f)] float _shootingCoolDownTime;
-    [SerializeField] Transform _shootingPoint;
+    [SerializeField] Transform _shootingPosition;
 
     GameObject _bulletPrefab;
 
     SpriteRenderer _spriteRenderer;
+
+    BulletManager _bulletManager;
 
     Color[] _colors = { Color.green, Color.cyan, Color.white, Color.magenta, Color.gray };
 
@@ -26,9 +28,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-        Reset();
+        _bulletManager = FindObjectOfType<BulletManager>();
         StartCoroutine(ShootingRoutine());
-
+        Reset();
     }
 
     // Update is called once per frame
@@ -62,7 +64,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator ShootingRoutine()
     {
-        GameObject bullet = Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        GameObject bullet = _bulletManager.GetBullet(); //Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        bullet.transform.position = _shootingPosition.position;
         bullet.transform.eulerAngles = new Vector3(0, 0, 180);
         bullet.GetComponent<SpriteRenderer>().color = Color.green;
         bullet.GetComponent<BulletBehavior>().RelativeSpeedAddision(Mathf.Abs(_verticalspeed));

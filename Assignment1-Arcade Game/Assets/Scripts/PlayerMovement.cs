@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_isMobilePlatform)
@@ -37,41 +36,33 @@ public class PlayerMovement : MonoBehaviour
             GetTraditionalInput();
         }
 
-        //Move();
-        //Rotate();
-
         CheckBoundaries();
     }
 
-    //void Move()
-    //{
-    //    transform.position = _destination;
-    //}
-
-    void Rotate()
+    void RotateTowards(Vector2 targetPosition)
     {
-        Vector2 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+        Vector2 direction = targetPosition - (Vector2)transform.position;
         transform.up = direction;
+    }
+
+    void Move()
+    {
+        transform.position = _destination;
     }
 
     void GetTraditionalInput()
     {
-        // get input and calculate movement amount
         float xAxis = Input.GetAxisRaw("Horizontal") * _movementSpeed * Time.deltaTime;
         float yAxis = Input.GetAxisRaw("Vertical") * _movementSpeed * Time.deltaTime;
+
         // Apply movement amount to transform
         _destination = new Vector3(xAxis + transform.position.x, yAxis + transform.position.y, 0);
-
+        
         // Move
-        transform.position = _destination;
+        Move();
 
-        //Rotate();
-        Vector2 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
-        transform.up = direction;
+        // Rotate
+        RotateTowards(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
     void GetTouchInput()
@@ -79,31 +70,22 @@ public class PlayerMovement : MonoBehaviour
         foreach (Touch touch in Input.touches)
         {
             _destination = _camera.ScreenToWorldPoint(touch.position);
+            Vector2 _mouseClickLocation = _destination;
             _destination = Vector2.Lerp(transform.position, _destination, _movementSpeed * Time.deltaTime);
-        }
 
-        // Move
-        transform.position = _destination;
+            // Move
+            Move();
+
+            // Rotate
+            RotateTowards(_mouseClickLocation);
+        }
     }
 
     void CheckBoundaries()
     {
-        //check if player pass the boundary
-        if (transform.position.x > _horizontalBoundary.max)
-        {
-            transform.position = new Vector3(_horizontalBoundary.max, transform.position.y, 0);
-        }
-        else if (transform.position.x < _horizontalBoundary.min)
-        {
-            transform.position = new Vector3(_horizontalBoundary.min, transform.position.y, 0);
-        }
-        if (transform.position.y > _verticalBoundary.max)
-        {
-            transform.position = new Vector3(transform.position.x, _verticalBoundary.max, 0);
-        }
-        else if (transform.position.y < _verticalBoundary.min)
-        {
-            transform.position = new Vector3(transform.position.x, _verticalBoundary.min, 0);
-        }
+        Vector3 position = transform.position;
+        position.x = Mathf.Clamp(position.x, _horizontalBoundary.min, _horizontalBoundary.max);
+        position.y = Mathf.Clamp(position.y, _verticalBoundary.min, _verticalBoundary.max);
+        transform.position = position;
     }
 }

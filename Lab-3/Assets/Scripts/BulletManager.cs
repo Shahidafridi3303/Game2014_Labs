@@ -5,8 +5,16 @@ using UnityEngine;
 public class BulletManager : MonoBehaviour
 {
     [SerializeField] 
-    int _totalBulletNum;
-    Queue<GameObject> _bulletPool = new Queue<GameObject>();
+    int _totalPlayerBulletNum;
+    [SerializeField]
+    int _totalEnemyBulletNum;
+    Queue<GameObject> _playerBulletPool = new Queue<GameObject>();
+    Queue<GameObject> _enemyBulletPool = new Queue<GameObject>();
+
+    private Dictionary<BulletType, Queue<GameObject>> _bulletPoolDictionary = new Dictionary<BulletType, Queue<GameObject>>();
+    [SerializeField]
+    Dictionary<BulletType, int> _bulletPoolSizes = new Dictionary<BulletType, int>();
+
     BulletFactory _bulletFactory;
 
     // Start is called before the first frame update
@@ -14,59 +22,44 @@ public class BulletManager : MonoBehaviour
     {
         _bulletFactory = FindObjectOfType<BulletFactory>();
 
-        for (int i = 0; i < _totalBulletNum; i++)
+        _bulletPoolSizes[BulletType.PLAYER] = _totalPlayerBulletNum;
+        _bulletPoolSizes[BulletType.ENEMY] = _totalEnemyBulletNum;
+        //Build bullet pool
+        PoolBuilder();
+    }
+
+    void PoolBuilder()
+    {
+        for (int i = 0; i < (int)BulletType.SIZE; i++)
         {
-            _bulletPool.Enqueue(_bulletFactory.CreateBullet());
+            BulletType type = (BulletType)i;
+            _bulletPoolDictionary[type] = new Queue<GameObject>();
+
+            for (int j = 0; j < _bulletPoolSizes[type]; j++)
+            {
+                _bulletPoolDictionary[type].Enqueue(_bulletFactory.CreateBullet(type));
+            }
         }
     }
 
-    //void CreateBullet()
-    //{
-    //    //Create bullet
-    //    GameObject bullet = Instantiate(_bulletPrefab, transform);
-    //    bullet.SetActive(false);
-    //    _bulletPool.Enqueue(bullet);
-    //}
-
     public GameObject GetBullet(BulletType type)
     {
-        if (_bulletPool.Count <= 1)
+        if (_bulletPoolDictionary.Count <= 1)
         {
             //in the stress point so create more bullet
-            _bulletPool.Enqueue(_bulletFactory.CreateBullet());
+            _bulletPoolDictionary[type].Enqueue(_bulletFactory.CreateBullet(type));
         }
-        GameObject bullet = _bulletPool.Dequeue();
-        bullet.SetActive(true);
 
-        switch (type)
-        {
-            case BulletType.PLAYER:
-                //Set up player bullet.
-                bullet.transform.eulerAngles = Vector3.zero;
-                bullet.GetComponent<SpriteRenderer>().color = Color.white;
-                bullet.tag = "PlayerBullet";
-                break;
-            case BulletType.ENEMY:
-                //Set up player bullet.
-                bullet.transform.eulerAngles = new Vector3(0, 0, 180);
-                bullet.GetComponent<SpriteRenderer>().color = Color.green;
-                bullet.tag = "EnemyBullet";
-                break;
-        }
+        GameObject bullet = _bulletPoolDictionary[type].Dequeue();
+        bullet.SetActive(true);
 
         return bullet;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void ReturnBullet(GameObject bullet)
+    public void ReturnBullet(GameObject bullet, BulletType type)
     {
         bullet.SetActive(false);
-        _bulletPool.Enqueue(bullet);
+        _bulletPoolDictionary[type].Enqueue(bullet);
     }
 }
 

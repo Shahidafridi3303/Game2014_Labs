@@ -19,10 +19,29 @@ public class BulletFactory : MonoBehaviour
         
     }
 
-    public GameObject CreateBullet()
+    public GameObject CreateBullet(BulletType type)
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform);
         bullet.SetActive(false);
+
+        switch (type)
+        {
+            case BulletType.PLAYER:
+                //Set up player bullet.
+                bullet.transform.eulerAngles = Vector3.zero;
+                bullet.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/PlayerBullet");
+                bullet.GetComponent<BulletBehavior>().SetType(BulletType.PLAYER);
+                bullet.tag = "PlayerBullet";
+                break;
+            case BulletType.ENEMY:
+                //Set up player bullet.
+                bullet.transform.eulerAngles = new Vector3(0, 0, 180);
+                bullet.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/EnemyBullet");
+                bullet.GetComponent<BulletBehavior>().SetType(BulletType.ENEMY);
+                bullet.tag = "EnemyBullet";
+                break;
+        }
+
         return bullet;
     }
 }

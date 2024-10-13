@@ -14,6 +14,8 @@ public class BulletBehavior : MonoBehaviour
 
     private BulletManager _bulletManager;
 
+    private BulletType _type;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +31,22 @@ public class BulletBehavior : MonoBehaviour
         if (transform.position.y > _boundry.max || transform.position.y < _boundry.min)
         {
             //Destroy(gameObject);
-            _bulletManager.ReturnBullet(this.gameObject);
+            _bulletManager.ReturnBullet(this.gameObject, _type);
         }
     }
 
     public void RelativeSpeedAddision(float speed)
     {
         _speed = _baseSpeed + speed;
+    }
+
+    public BulletType GetType()
+    {
+        return _type;
+    }
+
+    public void SetType(BulletType type)
+    {
+        _type = type;
     }
 }

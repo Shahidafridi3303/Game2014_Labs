@@ -54,9 +54,9 @@ public class PlayerBehaviour : MonoBehaviour
     IEnumerator ShootingRoutine()
     {
         // Instantiate(_bulletPrefab, _shootingPoint.position, Quaternion.identity);
+        yield return new WaitForSeconds(_shootingCoolDownTime);
         GameObject bullet = _bulletManager.GetBullet(BulletType.PLAYER);
         bullet.transform.position = _shootingPoint.position;
-        yield return new WaitForSeconds(_shootingCoolDownTime);
         StartCoroutine(ShootingRoutine());
     }
 

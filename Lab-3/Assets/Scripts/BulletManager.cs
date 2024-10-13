@@ -4,37 +4,36 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
-    [SerializeField] int _totalBulletNum;
-    GameObject _bulletPrefab;
+    [SerializeField] 
+    int _totalBulletNum;
     Queue<GameObject> _bulletPool = new Queue<GameObject>();
+    BulletFactory _bulletFactory;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
+        _bulletFactory = FindObjectOfType<BulletFactory>();
 
         for (int i = 0; i < _totalBulletNum; i++)
         {
-            GameObject bullet = Instantiate(_bulletPrefab, transform);
-            bullet.SetActive(false);
-            _bulletPool.Enqueue(bullet);
+            _bulletPool.Enqueue(_bulletFactory.CreateBullet());
         }
     }
 
-    void CreateBullet()
-    {
-        //Create bullet
-        GameObject bullet = Instantiate(_bulletPrefab, transform);
-        bullet.SetActive(false);
-        _bulletPool.Enqueue(bullet);
-    }
+    //void CreateBullet()
+    //{
+    //    //Create bullet
+    //    GameObject bullet = Instantiate(_bulletPrefab, transform);
+    //    bullet.SetActive(false);
+    //    _bulletPool.Enqueue(bullet);
+    //}
 
     public GameObject GetBullet(BulletType type)
     {
         if (_bulletPool.Count <= 1)
         {
             //in the stress point so create more bullet
-            CreateBullet();
+            _bulletPool.Enqueue(_bulletFactory.CreateBullet());
         }
         GameObject bullet = _bulletPool.Dequeue();
         bullet.SetActive(true);

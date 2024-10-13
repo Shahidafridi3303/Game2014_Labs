@@ -136,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5183085661735117300, guid: f025776efa03ece42b6cee337ada18f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.002
+      value: 2.15
       objectReference: {fileID: 0}
     - target: {fileID: 5183085661735117300, guid: f025776efa03ece42b6cee337ada18f2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.55
+      value: 5.4
       objectReference: {fileID: 0}
     - target: {fileID: 5183085661735117300, guid: f025776efa03ece42b6cee337ada18f2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -291,7 +291,7 @@ MonoBehaviour:
   _verticalBoundary:
     max: -0.92
     min: -3.81
-  _isTestMobile: 1
+  _isTestMobile: 0
   _shootingCoolDownTime: 0.51
   _shootingPoint: {fileID: 520425380}
 --- !u!50 &360499935

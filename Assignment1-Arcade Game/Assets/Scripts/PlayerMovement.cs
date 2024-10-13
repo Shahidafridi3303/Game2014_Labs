@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody2D _rigidbody;
-    [SerializeField] float _speed = 3; //changing speed
+    [SerializeField] float _movementSpeed = 3; //changing speed
     [SerializeField] Boundaries _horizontalBoundary, _verticalBoundary;
     [SerializeField] bool _isTestMobile;
 
@@ -13,11 +13,6 @@ public class PlayerMovement : MonoBehaviour
     Vector2 _destination;
 
     bool _isMobilePlatform = true;
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
 
     void Start()
     {
@@ -42,23 +37,41 @@ public class PlayerMovement : MonoBehaviour
             GetTraditionalInput();
         }
 
-        Move();
+        //Move();
+        //Rotate();
 
         CheckBoundaries();
     }
 
-    void Move()
+    //void Move()
+    //{
+    //    transform.position = _destination;
+    //}
+
+    void Rotate()
     {
-        transform.position = _destination;
+        Vector2 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+        transform.up = direction;
     }
 
     void GetTraditionalInput()
     {
         // get input and calculate movement amount
-        float xAxis = Input.GetAxisRaw("Horizontal") * _speed * Time.deltaTime;
-        float yAxis = Input.GetAxisRaw("Vertical") * _speed * Time.deltaTime;
+        float xAxis = Input.GetAxisRaw("Horizontal") * _movementSpeed * Time.deltaTime;
+        float yAxis = Input.GetAxisRaw("Vertical") * _movementSpeed * Time.deltaTime;
         // Apply movement amount to transform
         _destination = new Vector3(xAxis + transform.position.x, yAxis + transform.position.y, 0);
+
+        // Move
+        transform.position = _destination;
+
+        //Rotate();
+        Vector2 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+        transform.up = direction;
     }
 
     void GetTouchInput()
@@ -66,8 +79,11 @@ public class PlayerMovement : MonoBehaviour
         foreach (Touch touch in Input.touches)
         {
             _destination = _camera.ScreenToWorldPoint(touch.position);
-            _destination = Vector2.Lerp(transform.position, _destination, _speed * Time.deltaTime);
+            _destination = Vector2.Lerp(transform.position, _destination, _movementSpeed * Time.deltaTime);
         }
+
+        // Move
+        transform.position = _destination;
     }
 
     void CheckBoundaries()

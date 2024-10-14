@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
 
             // Rotate
-            RotateTowards(_mouseClickLocation);
+            RotateTowards(- _mouseClickLocation); // Rotate towards opposite direction
         }
     }
 

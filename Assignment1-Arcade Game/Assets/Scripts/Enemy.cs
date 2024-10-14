@@ -3,38 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyController : MonoBehaviour
+public class EnemyChase : MonoBehaviour
 {
-    // Player Awareness
-    [SerializeField] private float _playerAwarenessDistance;
-    public bool AwareOfPlayer { get; private set; }
-    public Vector2 DirectionToPlayer { get; private set; }
+    // Detection radius for the enemy to sense the player
+    [SerializeField] private float detectionRadius;
+    // Speed at which the enemy moves towards the player
+    [SerializeField] private float moveSpeed;
 
-    // Enemy Movement
-    [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _rotationSpeed;
-
-    private Transform _player;
-    private Rigidbody2D _rigidbody;
-    private Vector2 _targetDirection;
+    private Transform playerTransform;
+    private Rigidbody2D enemyRigidbody;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _player = FindObjectOfType<PlayerMovement>().transform; // Ensure player exists
-    }
-
-    private void Update()
-    {
-        if (_player != null)
-        {
-            UpdatePlayerAwareness();
-        }
+        // Get the player's position and enemy's rigidbody
+        playerTransform = FindObjectOfType<PlayerMovement>()?.transform;
+        enemyRigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        if (AwareOfPlayer)
+        // Check if player exists and is within detection range
+        if (playerTransform != null && Vector2.Distance(transform.position, playerTransform.position) <= detectionRadius)
         {
             MoveTowardsPlayer();
         }
@@ -44,36 +33,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void UpdatePlayerAwareness()
-    {
-        Vector2 enemyToPlayerVector = _player.position - transform.position;
-        DirectionToPlayer = enemyToPlayerVector.normalized;
-        AwareOfPlayer = enemyToPlayerVector.magnitude <= _playerAwarenessDistance;
-    }
-
+    // Moves the enemy directly towards the player's position
     private void MoveTowardsPlayer()
     {
-        _targetDirection = DirectionToPlayer;
-        RotateTowardsTarget();
-        SetVelocity();
+        Vector2 direction = (playerTransform.position - transform.position).normalized;
+        enemyRigidbody.velocity = direction * moveSpeed;
     }
 
+    // Stops the enemy when the player is out of range
     private void StopMovement()
     {
-        _rigidbody.velocity = Vector2.zero;
-    }
-
-    private void RotateTowardsTarget()
-    {
-        if (_targetDirection == Vector2.zero) return;
-
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, _targetDirection);
-        Quaternion smoothedRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
-        _rigidbody.SetRotation(smoothedRotation);
-    }
-
-    private void SetVelocity()
-    {
-        _rigidbody.velocity = transform.up * _moveSpeed;
+        enemyRigidbody.velocity = Vector2.zero;
     }
 }

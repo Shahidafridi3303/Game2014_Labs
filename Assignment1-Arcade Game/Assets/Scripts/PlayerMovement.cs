@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             Vector2 _mouseClickLocation = _destination;
             _destination = Vector2.Lerp(transform.position, _destination, _movementSpeed * Time.deltaTime);
 
-            // Move
+            // Move 
             Move();
 
             // Rotate

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<EnemyChase>().HandleDeath();
 
             // Increment the score in GameManager
-            gameManager.IncrementScore();
+            gameManager.IncrementScore(5);
 
             // Destroy the bullet after hitting the enemy
             Destroy(gameObject);

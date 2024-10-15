@@ -18,9 +18,9 @@ public class GameManager : MonoBehaviour
         //gameOverText.SetActive(false);
     }
 
-    public void IncrementScore()
+    public void IncrementScore(int _score)
     {
-        score += 5;
+        score += _score;
         scoreText.text = "Score: " + score.ToString();
     }
 

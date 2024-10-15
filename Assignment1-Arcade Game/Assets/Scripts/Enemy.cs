@@ -5,10 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyChase : MonoBehaviour
 {
-    // Defines the area within which the enemy will track the player
     [SerializeField] private float playerDetectionRadius = 2.0f;
-    // Speed at which the enemy moves when chasing the player
     [SerializeField] private float chaseSpeed = 1.0f;
+    [SerializeField] private GameObject healthPickupPrefab;
+    [SerializeField] private GameObject scorePickupPrefab;
+    [SerializeField] private float healthSpawnChance = 0.2f; // chance to spawn health pickup
+    [SerializeField] private float scoreSpawnChance = 0.3f; // chance to spawn health pickup
 
     // Boundaries for the enemy's movement
     [SerializeField] private Boundaries horizontalBoundary, verticalBoundary;
@@ -113,23 +115,34 @@ public class EnemyChase : MonoBehaviour
         return new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)).normalized;
     }
 
-    // Handle the enemy's death logic
     public void HandleDeath()
     {
-        if (isDead) return; // Prevent multiple death handling
+        if (isDead) return;
 
-        isDead = true; // Set the flag to prevent further movement
+        isDead = true;
 
-        // Trigger the death animation
         enemyAnimator.SetTrigger("OnDie");
-
-        // Disable the enemy's collider to prevent further collisions
         enemyCollider.enabled = false;
-
-        // Destroy the enemy after a 0.8-second delay to allow for the animation to finish
-        Destroy(gameObject, 0.8f);
-
-        // stop movement
         enemyRigidbody.velocity = Vector2.zero;
+
+        StartCoroutine(SpawnHealthOrScorePickupAfterDelay());
+    }
+
+    // Coroutine to spawn a health or score pickup after a delay
+    private IEnumerator SpawnHealthOrScorePickupAfterDelay()
+    {
+        yield return new WaitForSeconds(0.8f);
+
+        float randomValue = Random.Range(0f, 1f);
+        if (randomValue < healthSpawnChance)
+        {
+            Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+        }
+        else if (randomValue < healthSpawnChance + scoreSpawnChance)
+        {
+            Instantiate(scorePickupPrefab, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 }

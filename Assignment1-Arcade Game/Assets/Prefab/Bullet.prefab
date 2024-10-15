@@ -109,6 +109,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbfbfe2b29ac7242bbb4ac32fdcab71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalBoundary:
+    max: 2.5
+    min: -2.5
+  verticalBoundary:
+    max: 5
+    min: -5
 --- !u!1 &6953648528607664293
 GameObject:
   m_ObjectHideFlags: 0

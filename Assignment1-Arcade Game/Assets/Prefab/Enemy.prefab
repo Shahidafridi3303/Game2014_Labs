@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2219148439908113301}
-  - component: {fileID: 7700038966852517242}
   - component: {fileID: 1017766507374505498}
   - component: {fileID: 741791691593244803}
   - component: {fileID: 1533972726957462517}
+  - component: {fileID: 7700038966852517242}
+  - component: {fileID: 7889189566632367668}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -35,26 +36,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7700038966852517242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5287362745797052908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2326dc45e1f01dd42bf12f580674c617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerDetectionRadius: 2
-  chaseSpeed: 1
-  horizontalBoundary:
-    max: 2
-    min: -2.28
-  verticalBoundary:
-    max: 4.55
-    min: -4.6
 --- !u!50 &1017766507374505498
 Rigidbody2D:
   serializedVersion: 4
@@ -121,7 +102,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -616731075
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -679486730, guid: da158ef89a14e4a4b823fdad6e596ce7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -169,3 +150,36 @@ CapsuleCollider2D:
   m_Offset: {x: -0.012635707, y: 0.020102236}
   m_Size: {x: 0.65851396, y: 0.17979707}
   m_Direction: 1
+--- !u!114 &7700038966852517242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5287362745797052908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2326dc45e1f01dd42bf12f580674c617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDetectionRadius: 2
+  chaseSpeed: 1
+  horizontalBoundary:
+    max: 2
+    min: -2.28
+  verticalBoundary:
+    max: 4.55
+    min: -4.6
+--- !u!114 &7889189566632367668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5287362745797052908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77dfcd4117da81f4c99492fe909e44ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageAmount: 10

@@ -870,7 +870,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 2595103986534395226, guid: b52fa0d08a470a8479a0908f1c212ef9, type: 3}
   _bulletSpeed: 10
   _gunOffset: {fileID: 1644336701}
-  _timeBetweenShots: 10
+  _timeBetweenShots: 0.5
 --- !u!1 &1644336700
 GameObject:
   m_ObjectHideFlags: 0

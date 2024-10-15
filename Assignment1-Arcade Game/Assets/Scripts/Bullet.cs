@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    // Reference to the GameManager script
+    private GameManager gameManager;
+
     // Boundaries for the bullet
     [SerializeField] private Boundaries horizontalBoundary;
     [SerializeField] private Boundaries verticalBoundary;
+
+    private void Start()
+    {
+        // Find the GameManager script in the scene
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void Update()
     {
@@ -17,7 +26,24 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(collision.gameObject);
+            // Access the Animator component of the enemy
+            Animator enemyAnimator = collision.gameObject.GetComponent<Animator>();
+            Collider2D enemyCollider = collision.gameObject.GetComponent<Collider2D>();
+            Rigidbody2D enemyRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            // Trigger the death animation
+            enemyAnimator.SetTrigger("OnDie");
+
+            // Disable enemy's collider
+            enemyCollider.enabled = false;
+
+            // Destroy the enemy after 0.4 seconds
+            Destroy(collision.gameObject, 0.8f);
+
+            // Increment the score in the GameManager
+            gameManager.IncrementScore();
+
+            // Destroy the bullet immediately
             Destroy(gameObject);
         }
     }

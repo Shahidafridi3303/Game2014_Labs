@@ -16,12 +16,18 @@ public class EnemyChase : MonoBehaviour
     private Transform playerTransform;
     private Rigidbody2D enemyRigidbody;
     private Vector2 targetDirection;
+    private bool isDead = false;
+
+    private Animator enemyAnimator;
+    private Collider2D enemyCollider;
 
     private void Awake()
     {
         // Get the player's transform and the enemy's Rigidbody2D component
         playerTransform = FindObjectOfType<PlayerMovement>()?.transform;
         enemyRigidbody = GetComponent<Rigidbody2D>();
+        enemyAnimator = GetComponent<Animator>();
+        enemyCollider = GetComponent<Collider2D>();
 
         // Initialize enemy movement in a random forward direction
         targetDirection = GetRandomDirection();
@@ -30,6 +36,8 @@ public class EnemyChase : MonoBehaviour
 
     private void Update()
     {
+        if (isDead) return;
+
         // Check if the player exists and is within detection range
         if (playerTransform != null && Vector2.Distance(transform.position, playerTransform.position) <= playerDetectionRadius)
         {
@@ -103,5 +111,25 @@ public class EnemyChase : MonoBehaviour
     {
         float randomAngle = Random.Range(0f, 360f);
         return new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)).normalized;
+    }
+
+    // Handle the enemy's death logic
+    public void HandleDeath()
+    {
+        if (isDead) return; // Prevent multiple death handling
+
+        isDead = true; // Set the flag to prevent further movement
+
+        // Trigger the death animation
+        enemyAnimator.SetTrigger("OnDie");
+
+        // Disable the enemy's collider to prevent further collisions
+        enemyCollider.enabled = false;
+
+        // Destroy the enemy after a 0.8-second delay to allow for the animation to finish
+        Destroy(gameObject, 0.8f);
+
+        // stop movement
+        enemyRigidbody.velocity = Vector2.zero;
     }
 }

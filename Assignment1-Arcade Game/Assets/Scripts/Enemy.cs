@@ -11,8 +11,7 @@ public class EnemyChase : MonoBehaviour
     [SerializeField] private float chaseSpeed = 1.0f;
 
     // Boundaries for the enemy's movement
-    [SerializeField] private Boundaries horizontalBoundary;
-    [SerializeField] private Boundaries verticalBoundary;
+    [SerializeField] private Boundaries horizontalBoundary, verticalBoundary;
 
     private Transform playerTransform;
     private Rigidbody2D enemyRigidbody;

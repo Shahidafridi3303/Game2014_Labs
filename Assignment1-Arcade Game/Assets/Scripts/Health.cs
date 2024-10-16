@@ -36,6 +36,10 @@ public class Health : MonoBehaviour
             GameOverCanvas.SetActive(true);
             GameCanvas.SetActive(false);
             Time.timeScale = 0f;
+
+            // Access the PlayerMovement script and set isDead to true
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            playerMovement.isDead = true;
         }
     }
 

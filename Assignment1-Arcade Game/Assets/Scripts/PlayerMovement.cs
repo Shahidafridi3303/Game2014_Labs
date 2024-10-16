@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _movementSpeed = 3; //changing speed
     [SerializeField] Boundaries _horizontalBoundary, _verticalBoundary;
     [SerializeField] bool _isTestMobile;
+    public bool isDead;
 
     Camera _camera;
     Vector2 _destination;
@@ -27,16 +28,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (_isMobilePlatform)
+        if (!isDead)
         {
-            GetTouchInput();
-        }
-        else
-        {
-            GetTraditionalInput();
-        }
+            if (_isMobilePlatform)
+            {
+                GetTouchInput();
+            }
+            else
+            {
+                GetTraditionalInput();
+            }
 
-        CheckBoundaries();
+            CheckBoundaries();
+        }
     }
 
     void RotateTowards(Vector2 targetPosition)

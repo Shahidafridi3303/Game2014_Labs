@@ -2,42 +2,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public AudioClip sfx1;//sfx2, sfx3;
+
+    public void PlayButtonSound()
+    {
+        audioSource.clip = sfx1;
+        audioSource.Play();
+    }
+
+    private IEnumerator WaitAndLoadScene(int LoadScene)
+    {
+        PlayButtonSound();
+
+        // Wait for the sound to finish before loading the scene
+        yield return new WaitForSeconds(0.4f);
+
+        SceneManager.LoadScene(LoadScene);
+    }
+
     public void NewGame()
     {
-        SceneManager.LoadScene(1);
+        StartCoroutine(WaitAndLoadScene(1));
     }
 
     public void PlayAgain()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+        StartCoroutine(WaitAndLoadScene(1));
     }
 
     public void PauseGame()
     {
+        PlayButtonSound();
         Time.timeScale = 0f;
     }
 
     public void ContinueGame()
     {
         Time.timeScale = 1f;
+        PlayButtonSound();
     }
 
     public void LoadMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+        StartCoroutine(WaitAndLoadScene(0));
     }
 
     public void Exit()
     {
+        Time.timeScale = 1f;
+        StartCoroutine(WaitAndExit());
+    }
+
+    private IEnumerator WaitAndExit()
+    {
+        PlayButtonSound();
+        yield return new WaitForSeconds(0.4f);
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
+
     }
 }

@@ -36,6 +36,14 @@ public class EnemyChase : MonoBehaviour
         enemyRigidbody.velocity = targetDirection * chaseSpeed;
     }
 
+    private void OnEnable()
+    {
+        isDead = false;
+        enemyCollider.enabled = true;
+        targetDirection = GetRandomDirection();
+        enemyRigidbody.velocity = targetDirection * chaseSpeed;
+    }
+
     private void Update()
     {
         if (isDead) return;
@@ -143,6 +151,7 @@ public class EnemyChase : MonoBehaviour
             Instantiate(scorePickupPrefab, transform.position, Quaternion.identity);
         }
 
-        Destroy(gameObject);
+        // Instead of destroying the enemy, return it to the pool
+        EnemyPool.Instance.ReturnEnemyToPool(gameObject);
     }
 }

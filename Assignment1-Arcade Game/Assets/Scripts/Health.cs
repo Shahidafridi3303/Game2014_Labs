@@ -14,6 +14,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private Image healthBar;
 
+    [SerializeField] private GameObject GameCanvas;
+    [SerializeField] private GameObject GameOverCanvas;
+
     private void Start()
     {
         // Initialize the health bar to full
@@ -29,7 +32,10 @@ public class Health : MonoBehaviour
 
         if (_currentHealth <= 0)
         {
-            Debug.Log("Player is dead!");
+            // Game Over logic
+            GameOverCanvas.SetActive(true);
+            GameCanvas.SetActive(false);
+            Time.timeScale = 0f;
         }
     }
 

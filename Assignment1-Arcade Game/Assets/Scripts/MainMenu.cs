@@ -10,14 +10,26 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void Continue()
+    public void PlayAgain()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
 
-    public void Credits()
+    public void PauseGame()
     {
+        Time.timeScale = 0f;
+    }
 
+    public void ContinueGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 
     public void Exit()
@@ -25,7 +37,7 @@ public class MainMenu : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 }

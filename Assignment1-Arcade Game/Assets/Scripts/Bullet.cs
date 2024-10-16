@@ -29,8 +29,8 @@ public class Bullet : MonoBehaviour
             // Increment the score in GameManager
             gameManager.IncrementScore(5);
 
-            // Destroy the bullet after hitting the enemy
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -40,7 +40,8 @@ public class Bullet : MonoBehaviour
         if (position.x < horizontalBoundary.min || position.x > horizontalBoundary.max ||
             position.y < verticalBoundary.min || position.y > verticalBoundary.max)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
 }

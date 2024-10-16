@@ -54,9 +54,22 @@ public class PlayerFire : MonoBehaviour
 
     private void FireBullet()
     {
-        GameObject bullet = Instantiate(_bulletPrefab, _gunOffset.position, transform.rotation);
-        Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
+        //GameObject bullet = Instantiate(_bulletPrefab, _gunOffset.position, transform.rotation);
 
-        rigidbody.velocity = _bulletSpeed * transform.up;
+        GameObject bullet = BulletPool.Instance.GetPooledBullet();
+
+        if (bullet != null)
+        {
+            bullet.transform.position = _gunOffset.position;
+            bullet.transform.rotation = transform.rotation;
+            bullet.SetActive(true);
+
+            Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
+            rigidbody.velocity = _bulletSpeed * transform.up;
+        }
+        else
+        {
+            Debug.LogWarning("No bullets available in the pool!");
+        }
     }
 }

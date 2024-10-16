@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -8,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float maxSpawnInterval = 5f;
     [SerializeField] private bool spawnOnXAxis; // Boolean to determine spawning axis
     [SerializeField] private float minRange, maxRange;
+    [SerializeField] private float largeEnemySpawnChance = 0.2f; // Chance to spawn a large enemy
 
     private void Start()
     {
@@ -33,8 +33,11 @@ public class EnemySpawner : MonoBehaviour
                 spawnPosition = new Vector2(transform.position.x, Random.Range(minRange, maxRange));
             }
 
+            // Determine if a large enemy should be spawned
+            bool isLargeEnemy = Random.Range(0f, 1f) < largeEnemySpawnChance;
+
             // Get an enemy from the pool
-            GameObject enemy = EnemyPool.Instance.GetPooledEnemy();
+            GameObject enemy = EnemyPool.Instance.GetPooledEnemy(isLargeEnemy);
             if (enemy != null)
             {
                 enemy.transform.position = spawnPosition;

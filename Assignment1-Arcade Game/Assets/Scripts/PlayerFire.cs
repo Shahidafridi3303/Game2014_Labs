@@ -18,7 +18,7 @@ public class PlayerFire : MonoBehaviour
     private SoundManager _soundManager;
 
     private Coroutine _autoFireCoroutine;
-
+    
     void Start()
     {
         _soundManager = GetComponent<SoundManager>();
@@ -55,6 +55,8 @@ public class PlayerFire : MonoBehaviour
     private void FireBullet()
     {
         //GameObject bullet = Instantiate(_bulletPrefab, _gunOffset.position, transform.rotation);
+        //Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
+        //rigidbody.velocity = _bulletSpeed * transform.up;
 
         GameObject bullet = BulletPool.Instance.GetPooledBullet();
 

@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyChase : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private float playerDetectionRadius = 2.0f;
     [SerializeField] private float chaseSpeed = 1.0f;
@@ -11,6 +10,7 @@ public class EnemyChase : MonoBehaviour
     [SerializeField] private GameObject scorePickupPrefab;
     [SerializeField] private float healthSpawnChance = 0.2f; // chance to spawn health pickup
     [SerializeField] private float scoreSpawnChance = 0.3f; // chance to spawn health pickup
+    [SerializeField] private bool isLargeEnemy = false; // Flag to determine if the enemy is large
 
     // Boundaries for the enemy's movement
     [SerializeField] private Boundaries horizontalBoundary, verticalBoundary;
@@ -22,6 +22,7 @@ public class EnemyChase : MonoBehaviour
 
     private Animator enemyAnimator;
     private Collider2D enemyCollider;
+    private EnemyHeal health;
 
     private void Awake()
     {
@@ -30,10 +31,18 @@ public class EnemyChase : MonoBehaviour
         enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyAnimator = GetComponent<Animator>();
         enemyCollider = GetComponent<Collider2D>();
+        health = GetComponent<EnemyHeal>();
 
         // Initialize enemy movement in a random forward direction
         targetDirection = GetRandomDirection();
         enemyRigidbody.velocity = targetDirection * chaseSpeed;
+
+        // Adjust size and health if the enemy is large
+        if (isLargeEnemy)
+        {
+            transform.localScale *= 3;
+            health.ResetHealth();
+        }
     }
 
     private void OnEnable()
@@ -42,6 +51,7 @@ public class EnemyChase : MonoBehaviour
         enemyCollider.enabled = true;
         targetDirection = GetRandomDirection();
         enemyRigidbody.velocity = targetDirection * chaseSpeed;
+        health.ResetHealth();
     }
 
     private void Update()

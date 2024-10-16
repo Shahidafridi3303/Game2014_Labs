@@ -6,10 +6,12 @@ public class EnemyPool : MonoBehaviour
     public static EnemyPool Instance { get; private set; }
 
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject largeEnemyPrefab;
     [SerializeField] private int initialPoolSize = 10;
     [SerializeField] private bool canExpand = true;
 
     private List<GameObject> enemyPool;
+    private List<GameObject> largeEnemyPool;
 
     private void Awake()
     {
@@ -32,9 +34,16 @@ public class EnemyPool : MonoBehaviour
     private void InitializePool()
     {
         enemyPool = new List<GameObject>(initialPoolSize);
+        largeEnemyPool = new List<GameObject>(initialPoolSize / 2); // Adjust size as needed
+
         for (int i = 0; i < initialPoolSize; i++)
         {
             AddEnemyToPool();
+        }
+
+        for (int i = 0; i < initialPoolSize / 2; i++)
+        {
+            AddLargeEnemyToPool();
         }
     }
 
@@ -46,9 +55,19 @@ public class EnemyPool : MonoBehaviour
         return enemy;
     }
 
-    public GameObject GetPooledEnemy()
+    private GameObject AddLargeEnemyToPool()
     {
-        foreach (GameObject enemy in enemyPool)
+        GameObject largeEnemy = Instantiate(largeEnemyPrefab);
+        largeEnemy.SetActive(false);
+        largeEnemyPool.Add(largeEnemy);
+        return largeEnemy;
+    }
+
+    public GameObject GetPooledEnemy(bool isLarge)
+    {
+        List<GameObject> pool = isLarge ? largeEnemyPool : enemyPool;
+
+        foreach (GameObject enemy in pool)
         {
             if (!enemy.activeInHierarchy)
             {
@@ -58,7 +77,7 @@ public class EnemyPool : MonoBehaviour
 
         if (canExpand)
         {
-            return AddEnemyToPool();
+            return isLarge ? AddLargeEnemyToPool() : AddEnemyToPool();
         }
 
         return null;

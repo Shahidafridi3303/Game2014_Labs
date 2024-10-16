@@ -24,13 +24,13 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             // Tell the enemy to handle its own destruction logic
-            collision.gameObject.GetComponent<EnemyChase>().HandleDeath();
+            collision.gameObject.GetComponent<Enemy>().HandleDeath();
 
             // Increment the score in GameManager
             gameManager.IncrementScore(5);
 
-            //Destroy(gameObject);
-            gameObject.SetActive(false);
+            // Return the bullet to the pool instead of destroying it
+            BulletPool.Instance.ReturnBulletToPool(gameObject);
         }
     }
 
@@ -40,8 +40,8 @@ public class Bullet : MonoBehaviour
         if (position.x < horizontalBoundary.min || position.x > horizontalBoundary.max ||
             position.y < verticalBoundary.min || position.y > verticalBoundary.max)
         {
-            gameObject.SetActive(false);
-            //Destroy(gameObject);
+            // Return the bullet to the pool instead of destroying it
+            BulletPool.Instance.ReturnBulletToPool(gameObject);
         }
     }
 }

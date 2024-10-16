@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3635868517925130628}
   - component: {fileID: -5188542728228228214}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: LargeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3.8, z: 0.05836275}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -170,7 +170,7 @@ MonoBehaviour:
   scorePickupPrefab: {fileID: 2128480193692795681, guid: 365d09755b662b943a69bff307ed6c97, type: 3}
   healthSpawnChance: 0.15
   scoreSpawnChance: 0.35
-  isLargeEnemy: 0
+  isLargeEnemy: 1
   horizontalBoundary:
     max: 2
     min: -2.28
@@ -224,4 +224,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6320746004ad448de09b806db296b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 3

@@ -17,6 +17,9 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject GameCanvas;
     [SerializeField] private GameObject GameOverCanvas;
 
+    public AudioSource audioSource;
+    public AudioClip GameOverClip;
+
     private void Start()
     {
         // Initialize the health bar to full
@@ -36,6 +39,10 @@ public class Health : MonoBehaviour
             GameOverCanvas.SetActive(true);
             GameCanvas.SetActive(false);
             Time.timeScale = 0f;
+
+            // Play Game Over music
+            audioSource.clip = GameOverClip;
+            audioSource.Play();
 
             // Access the PlayerMovement script and set isDead to true
             PlayerMovement playerMovement = GetComponent<PlayerMovement>();

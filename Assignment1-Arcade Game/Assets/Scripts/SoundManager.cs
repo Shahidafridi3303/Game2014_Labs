@@ -4,18 +4,44 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public AudioClip sfx1;//sfx2, sfx3;
+    public AudioSource audioSource, fireAudioSource, ScorePickupAudioSource;
+    public AudioClip Fire, TakeDamage, EnemyKilled, PlayerDeath, ScorePickup, HealthPickup;
 
-    // Start is called before the first frame update
-    void Start()
+    public void PlaySoundsfx(AudioClip Clip)
     {
-        
+        audioSource.clip = Clip;
+        audioSource.Play();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayFireSound()
     {
-        
+        fireAudioSource.clip = Fire;
+        fireAudioSource.Play();
+    }
+
+    public void PlayTakeDamage()
+    {
+        PlaySoundsfx(TakeDamage);
+    }
+
+    public void PlayPlayerDeath()
+    {
+        PlaySoundsfx(PlayerDeath);
+    }
+
+    public void PlayEnemyKilled()
+    {
+        PlaySoundsfx(EnemyKilled);
+    }
+
+    public void PlayScorePickup()
+    {
+        ScorePickupAudioSource.clip = ScorePickup;
+        ScorePickupAudioSource.Play();
+    }
+
+    public void PlayHealthPickup()
+    {
+        PlaySoundsfx(HealthPickup);
     }
 }

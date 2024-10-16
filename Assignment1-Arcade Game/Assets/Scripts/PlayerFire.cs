@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerFire : MonoBehaviour
 {
     [SerializeField]
     private GameObject _bulletPrefab;
@@ -15,10 +15,13 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField]
     private float _timeBetweenShots;
 
+    private SoundManager _soundManager;
+
     private Coroutine _autoFireCoroutine;
 
     void Start()
     {
+        _soundManager = GetComponent<SoundManager>();
         StartAutoFire();
     }
 
@@ -44,6 +47,7 @@ public class PlayerShoot : MonoBehaviour
         while (true)
         {
             FireBullet();
+            _soundManager.PlayFireSound();
             yield return new WaitForSeconds(_timeBetweenShots);
         }
     }

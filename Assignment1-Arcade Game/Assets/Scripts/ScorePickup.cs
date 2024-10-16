@@ -5,14 +5,15 @@ using UnityEngine;
 public class ScorePickup : MonoBehaviour
 {
     private GameManager gameManager;
+    private SoundManager soundManager;
+
     [SerializeField]
     private int _score = 25;
 
     private void Start()
     {
-        //Debug.Log("player detected");
-
         gameManager = FindObjectOfType<GameManager>();
+        soundManager = FindObjectOfType<SoundManager>();
     }
 
     // Detect trigger collisions with the player
@@ -20,6 +21,7 @@ public class ScorePickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            soundManager.PlayScorePickup();
             gameManager.IncrementScore(_score);
 
             Destroy(gameObject);

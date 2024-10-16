@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject scoreTextObject;
     public GameObject FinalScoreTextObject;
 
-    //public GameObject gameOverText;
+    private SoundManager soundManager;
 
     private int score = 0;
     private TMP_Text scoreText;
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        soundManager = FindObjectOfType<SoundManager>();
+
         scoreText = scoreTextObject.GetComponent<TMP_Text>();
         FinalScoreText = FinalScoreTextObject.GetComponent<TMP_Text>();
 
@@ -28,11 +30,12 @@ public class GameManager : MonoBehaviour
         score += _score;
         scoreText.text = "Score: " + score.ToString();
         FinalScoreText.text = "Score: " + score.ToString();
+
+        soundManager.PlayEnemyKilled();
     }
 
     public void GameOver()
     {
-        //gameOverText.SetActive(true);
         Time.timeScale = 0;
     }
 }

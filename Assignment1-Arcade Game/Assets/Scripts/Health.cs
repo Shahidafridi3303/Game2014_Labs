@@ -20,8 +20,11 @@ public class Health : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip GameOverClip;
 
+    private SoundManager _soundManager;
+
     private void Start()
     {
+        _soundManager = GetComponent<SoundManager>();
         // Initialize the health bar to full
         UpdateHealthBar();
     }
@@ -32,10 +35,12 @@ public class Health : MonoBehaviour
         _currentHealth -= damageAmount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maximumHealth);
         UpdateHealthBar();
+        _soundManager.PlayTakeDamage();
 
         if (_currentHealth <= 0)
         {
             // Game Over logic
+            _soundManager.PlayPlayerDeath();
             GameOverCanvas.SetActive(true);
             GameCanvas.SetActive(false);
             Time.timeScale = 0f;
@@ -53,6 +58,7 @@ public class Health : MonoBehaviour
     // Function to add health
     public void AddHealth(float healthAmount)
     {
+        _soundManager.PlayHealthPickup();
         _currentHealth += healthAmount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maximumHealth);
         UpdateHealthBar();

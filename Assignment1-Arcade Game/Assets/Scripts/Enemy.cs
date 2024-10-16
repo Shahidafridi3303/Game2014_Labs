@@ -135,15 +135,17 @@ public class Enemy : MonoBehaviour
 
     public void HandleDeath()
     {
-        if (isDead) return;
+        health.currentHealth--;
+        isDead = health.currentHealth == 0;
 
-        isDead = true;
+        if (isDead)
+        {
+            enemyAnimator.SetTrigger("OnDie");
+            enemyCollider.enabled = false;
+            enemyRigidbody.velocity = Vector2.zero;
 
-        enemyAnimator.SetTrigger("OnDie");
-        enemyCollider.enabled = false;
-        enemyRigidbody.velocity = Vector2.zero;
-
-        StartCoroutine(SpawnHealthOrScorePickupAfterDelay());
+            StartCoroutine(SpawnHealthOrScorePickupAfterDelay());
+        }
     }
 
     // Coroutine to spawn a health or score pickup after a delay
@@ -163,5 +165,7 @@ public class Enemy : MonoBehaviour
 
         // Instead of destroying the enemy, return it to the pool
         EnemyPool.Instance.ReturnEnemyToPool(gameObject);
+
+        health.HandleDeath();
     }
 }

@@ -5,24 +5,16 @@ using UnityEngine;
 public class EnemyHeal : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 1;
-    private int currentHealth;
+    public int currentHealth;
 
     private void Awake()
     {
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void HandleDeath()
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
-        {
-            HandleDeath();
-        }
-    }
-
-    private void HandleDeath()
-    {
+        currentHealth = maxHealth;
         gameObject.SetActive(false);
     }
 

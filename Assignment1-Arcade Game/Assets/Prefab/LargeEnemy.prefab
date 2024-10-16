@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7889189566632367668}
   - component: {fileID: 3635868517925130628}
   - component: {fileID: -5188542728228228214}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LargeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5287362745797052908}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -103,7 +103,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -616731075
+  m_SortingLayerID: -1381515807
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -679486730, guid: da158ef89a14e4a4b823fdad6e596ce7, type: 3}
@@ -225,3 +225,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  currentHealth: 0

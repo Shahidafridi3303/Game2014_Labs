@@ -13,7 +13,7 @@ public class PlayerFire : MonoBehaviour
     private Transform _gunOffset;
 
     [SerializeField]
-    private float _timeBetweenShots;
+    private float _timeBetweenShots = 0.67f;
 
     private SoundManager _soundManager;
 
@@ -69,5 +69,17 @@ public class PlayerFire : MonoBehaviour
         {
             Debug.LogWarning("No bullets available in the pool!");
         }
+    }
+
+    public void BoostFiringSpeed(float speed, float duration)
+    {
+        _timeBetweenShots = speed;
+        StartCoroutine(ResetFireRate(duration));
+    }
+
+    IEnumerator ResetFireRate(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        _timeBetweenShots = 0.67f;
     }
 }

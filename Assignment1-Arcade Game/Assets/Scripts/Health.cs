@@ -51,7 +51,6 @@ public class Health : MonoBehaviour
 
             // Access the PlayerMovement script and set isDead to true
             PlayerMovement playerMovement = GetComponent<PlayerMovement>();
-            playerMovement.isDead = true;
         }
     }
 

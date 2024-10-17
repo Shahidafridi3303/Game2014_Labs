@@ -6,8 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float playerDetectionRadius = 2.0f;
     [SerializeField] private float chaseSpeed = 1.0f;
-    [SerializeField] private GameObject healthPickupPrefab;
-    [SerializeField] private GameObject scorePickupPrefab;
+    [SerializeField] private GameObject healthPickupPrefab, scorePickupPrefab, speedBoostPrefab;
     [SerializeField] private float healthSpawnChance = 0.2f; // chance to spawn health pickup
     [SerializeField] private float scoreSpawnChance = 0.3f; // chance to spawn health pickup
     [SerializeField] private bool isLargeEnemy = false; // Flag to determine if the enemy is large
@@ -144,23 +143,40 @@ public class Enemy : MonoBehaviour
             enemyCollider.enabled = false;
             enemyRigidbody.velocity = Vector2.zero;
 
-            StartCoroutine(SpawnHealthOrScorePickupAfterDelay());
+            StartCoroutine(SpawnPickupsAfterDeath());
         }
     }
 
     // Coroutine to spawn a health or score pickup after a delay
-    private IEnumerator SpawnHealthOrScorePickupAfterDelay()
+    private IEnumerator SpawnPickupsAfterDeath()
     {
         yield return new WaitForSeconds(0.8f);
 
-        float randomValue = Random.Range(0f, 1f);
-        if (randomValue < healthSpawnChance)
+        if (isLargeEnemy)
         {
-            Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            Instantiate(speedBoostPrefab, transform.position, Quaternion.identity);
         }
-        else if (randomValue < healthSpawnChance + scoreSpawnChance)
+
+        else
         {
-            Instantiate(scorePickupPrefab, transform.position, Quaternion.identity);
+            float randomValue = Random.Range(0f, 1f);
+            if (randomValue < healthSpawnChance)
+            {
+                Instantiate(healthPickupPrefab, transform.position, Quaternion.identity);
+            }
+
+            else if (randomValue < healthSpawnChance + scoreSpawnChance)
+            {
+                float ScoreOrSpeed = Random.Range(0, 1);
+                if (ScoreOrSpeed == 0)
+                {
+                    Instantiate(scorePickupPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(speedBoostPrefab, transform.position, Quaternion.identity);
+                }
+            }
         }
 
         // Instead of destroying the enemy, return it to the pool

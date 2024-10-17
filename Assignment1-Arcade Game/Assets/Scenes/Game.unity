@@ -553,12 +553,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282580299}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.35387754, y: -0.15558994, z: -0.041310642}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.2167293, y: 0.19698626, z: -0.041310642}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1893954602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &288263938
 GameObject:
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpawnInterval: 2
-  maxSpawnInterval: 7
+  maxSpawnInterval: 5
   spawnOnXAxis: 1
   minRange: 2.3
   maxRange: -2.3
@@ -2278,12 +2278,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688777514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.43168056, y: -0.21494475, z: -0.045890402}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.2945323, y: 0.13763145, z: -0.045890402}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1893954602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &702519149
 GameObject:
@@ -3556,7 +3556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpawnInterval: 2
-  maxSpawnInterval: 7
+  maxSpawnInterval: 5
   spawnOnXAxis: 0
   minRange: 2.3
   maxRange: -2.3
@@ -4058,7 +4058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpawnInterval: 2
-  maxSpawnInterval: 7
+  maxSpawnInterval: 5
   spawnOnXAxis: 0
   minRange: 2.3
   maxRange: -2.3
@@ -4286,6 +4286,7 @@ GameObject:
   - component: {fileID: 1558451244}
   - component: {fileID: 1558451245}
   - component: {fileID: 1558451248}
+  - component: {fileID: 1558451249}
   - component: {fileID: 1558451247}
   m_Layer: 6
   m_Name: Player
@@ -4314,7 +4315,6 @@ MonoBehaviour:
     max: 4.19
     min: -4.6
   _isTestMobile: 1
-  isDead: 0
 --- !u!4 &1558451242
 Transform:
   m_ObjectHideFlags: 0
@@ -4382,7 +4382,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 2595103986534395226, guid: b52fa0d08a470a8479a0908f1c212ef9, type: 3}
   _bulletSpeed: 5
   _gunOffset: {fileID: 1644336701}
-  _timeBetweenShots: 0.67
+  _timeBetweenShots: 0.56
 --- !u!114 &1558451245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4546,6 +4546,22 @@ MonoBehaviour:
   PlayerDeath: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
   ScorePickup: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
   HealthPickup: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+--- !u!114 &1558451249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558451240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b442a2a52f349ee47b6d2feaee6d976d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healValue: 10
+  _score: 25
+  _boostFiringSpeed: 0.2
+  _boostFiringSpeed_Duration: 3
 --- !u!1 &1574495486
 GameObject:
   m_ObjectHideFlags: 0
@@ -4778,7 +4794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpawnInterval: 2
-  maxSpawnInterval: 7
+  maxSpawnInterval: 5
   spawnOnXAxis: 1
   minRange: 2.3
   maxRange: -2.3
@@ -5188,7 +5204,9 @@ Transform:
   m_LocalPosition: {x: 0.86285174, y: -0.3525762, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 282580301}
+  - {fileID: 688777516}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1893954603
@@ -5354,5 +5372,3 @@ SceneRoots:
   - {fileID: 1252338242}
   - {fileID: 1893954602}
   - {fileID: 725091520}
-  - {fileID: 282580301}
-  - {fileID: 688777516}

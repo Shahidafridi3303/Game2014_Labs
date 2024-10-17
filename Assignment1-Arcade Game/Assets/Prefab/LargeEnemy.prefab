@@ -104,7 +104,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1381515807
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -679486730, guid: da158ef89a14e4a4b823fdad6e596ce7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -168,6 +168,7 @@ MonoBehaviour:
   chaseSpeed: 1
   healthPickupPrefab: {fileID: 2128480193692795681, guid: 5955da232d128ed48a3aaf4fa4d395d4, type: 3}
   scorePickupPrefab: {fileID: 2128480193692795681, guid: 365d09755b662b943a69bff307ed6c97, type: 3}
+  speedBoostPrefab: {fileID: 8521579085629585239, guid: d0ea01c5f9ce27242ab105e08cfaf1df, type: 3}
   healthSpawnChance: 0.15
   scoreSpawnChance: 0.35
   isLargeEnemy: 1

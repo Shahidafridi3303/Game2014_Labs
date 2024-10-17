@@ -50,10 +50,8 @@ public class MainMenu : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene(0);
-
-        //Time.timeScale = 1f;
-        //StartCoroutine(WaitAndLoadScene(0));
+        Time.timeScale = 1f;
+        StartCoroutine(WaitAndLoadScene(0));
     }
 
     public void Exit()

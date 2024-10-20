@@ -15,6 +15,7 @@ public class PlayerSpecialAbility : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        _circleSword.SetActive(false); // Make sure the sword is initially off
         StartCoroutine(ActivateSwordPeriodically());
     }
 
@@ -25,6 +26,12 @@ public class PlayerSpecialAbility : MonoBehaviour
 
     private IEnumerator ActivateSwordPeriodically()
     {
+        // Activate the sword immediately
+        _circleSword.SetActive(true);
+        yield return new WaitForSeconds(_activeDuration);
+        _circleSword.SetActive(false);
+
+        // Now start the interval loop for future activations
         while (true)
         {
             yield return new WaitForSeconds(_activationInterval);
@@ -47,7 +54,6 @@ public class PlayerSpecialAbility : MonoBehaviour
                 damageCoroutine = StartCoroutine(DealDamageOverTime(enemy));
             }
         }
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -65,9 +71,9 @@ public class PlayerSpecialAbility : MonoBehaviour
 
     private IEnumerator DealDamageOverTime(Enemy enemy)
     {
-        while (enemy != null && !enemy.isDead) 
+        while (enemy != null && !enemy.isDead)
         {
-            enemy.HandleDeath(); 
+            enemy.HandleDeath(); // Apply damage logic in HandleDeath
 
             // Increment the score in GameManager
             gameManager.IncrementScore(5);
@@ -75,6 +81,6 @@ public class PlayerSpecialAbility : MonoBehaviour
             yield return new WaitForSeconds(damageInterval);
         }
 
-        damageCoroutine = null; 
+        damageCoroutine = null;
     }
 }

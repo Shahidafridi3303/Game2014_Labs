@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5287362745797052908, guid: aca39139c4f98bf49925ac9a588a1aa5, type: 3}
-  largeEnemyPrefab: {fileID: 5287362745797052908, guid: 47336110467645d4faf2e01da42f5f07, type: 3}
+  largeEnemyPrefab: {fileID: 947289544704382896, guid: 814eb55090e7da64aa3f47f6f79dc16d, type: 3}
   initialPoolSize: 20
   canExpand: 1
 --- !u!4 &282580301
@@ -4273,7 +4273,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.004, z: 0}
-  m_LocalScale: {x: 0.24, y: 0.24, z: 0.24}
+  m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1558451242}

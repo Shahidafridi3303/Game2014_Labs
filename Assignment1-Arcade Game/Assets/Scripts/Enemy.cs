@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float playerDetectionRadius = 2.0f;
     [SerializeField] private float chaseSpeed = 1.0f;
-    [SerializeField] private GameObject healthPickupPrefab, scorePickupPrefab, speedBoostPrefab;
+    [SerializeField] private GameObject healthPickupPrefab, scorePickupPrefab, speedBoostPrefab, ShieldPrefab;
     [SerializeField] private float healthSpawnChance = 0.2f; // chance to spawn health pickup
     [SerializeField] private float scoreSpawnChance = 0.3f; // chance to spawn health pickup
     [SerializeField] private bool isLargeEnemy = false; // Flag to determine if the enemy is large
@@ -154,7 +154,15 @@ public class Enemy : MonoBehaviour
 
         if (isLargeEnemy)
         {
-            Instantiate(speedBoostPrefab, transform.position, Quaternion.identity);
+            int speedboostORshield = Random.Range(0, 2);
+            if (speedboostORshield == 0)
+            {
+                Instantiate(speedBoostPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(ShieldPrefab, transform.position, Quaternion.identity);
+            }
         }
 
         else
@@ -167,7 +175,7 @@ public class Enemy : MonoBehaviour
 
             else if (randomValue < healthSpawnChance + scoreSpawnChance)
             {
-                float ScoreOrSpeed = Random.Range(0, 1);
+                int ScoreOrSpeed = Random.Range(0, 2);
                 if (ScoreOrSpeed == 0)
                 {
                     Instantiate(scorePickupPrefab, transform.position, Quaternion.identity);

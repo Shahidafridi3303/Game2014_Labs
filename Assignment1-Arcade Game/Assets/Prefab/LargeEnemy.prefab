@@ -169,6 +169,7 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 2128480193692795681, guid: 5955da232d128ed48a3aaf4fa4d395d4, type: 3}
   scorePickupPrefab: {fileID: 2128480193692795681, guid: 365d09755b662b943a69bff307ed6c97, type: 3}
   speedBoostPrefab: {fileID: 8521579085629585239, guid: d0ea01c5f9ce27242ab105e08cfaf1df, type: 3}
+  ShieldPrefab: {fileID: 381956043577050783, guid: 64670c3a28be5a34dad70b90b740a8d8, type: 3}
   healthSpawnChance: 0.15
   scoreSpawnChance: 0.35
   isLargeEnemy: 1

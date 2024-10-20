@@ -9,6 +9,7 @@ TagManager:
   - ScorePickup
   - FireSpeedBoost
   - SpeedBoost
+  - Shield
   layers:
   - Default
   - TransparentFX

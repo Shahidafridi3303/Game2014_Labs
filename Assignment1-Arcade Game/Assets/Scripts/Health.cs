@@ -22,6 +22,8 @@ public class Health : MonoBehaviour
 
     private SoundManager _soundManager;
 
+    public bool CanTakeDamage { get; set; } = true;
+
     private void Start()
     {
         _soundManager = GetComponent<SoundManager>();
@@ -32,6 +34,8 @@ public class Health : MonoBehaviour
     // Function to take damage
     public void TakeDamage(float damageAmount)
     {
+        if (!CanTakeDamage) return; // Exit if damage is disabled
+
         _currentHealth -= damageAmount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0, _maximumHealth);
         UpdateHealthBar();

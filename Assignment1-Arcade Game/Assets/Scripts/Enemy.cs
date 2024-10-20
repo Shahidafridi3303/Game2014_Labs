@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     private Transform playerTransform;
     private Rigidbody2D enemyRigidbody;
     private Vector2 targetDirection;
-    private bool isDead = false;
+    public bool isDead = false;
 
     private Animator enemyAnimator;
     private Collider2D enemyCollider;
@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour
         float randomAngle = Random.Range(0f, 360f);
         return new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)).normalized;
     }
-
+    
     public void HandleDeath()
     {
         health.currentHealth--;

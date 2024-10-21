@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour
             enemyAnimator.SetTrigger("OnDie");
             enemyCollider.enabled = false;
             enemyRigidbody.velocity = Vector2.zero;
-
+            
             StartCoroutine(SpawnPickupsAfterDeath());
         }
     }

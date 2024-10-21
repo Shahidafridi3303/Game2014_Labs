@@ -1,34 +1,30 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField]
-    private float _currentHealth = 100f;
+    [SerializeField] private float currentHealth = 100f;
+    [SerializeField] private float maximumHealth = 100f;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private GameObject gameCanvas;
+    [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip gameOverClip;
 
-    [SerializeField]
-    private float _maximumHealth = 100f;
-
-    [SerializeField]
-    private Image healthBar;
-
-    [SerializeField] private GameObject GameCanvas;
-    [SerializeField] private GameObject GameOverCanvas;
-
-    public AudioSource audioSource;
-    public AudioClip GameOverClip;
-
-    private SoundManager _soundManager;
+    private SoundManager soundManager;
 
     public bool CanTakeDamage { get; set; } = true;
 
     private void Start()
     {
-        _soundManager = GetComponent<SoundManager>();
-        // Initialize the health bar to full
-        UpdateHealthBar();
+        InitializeComponents();
+        UpdateHealthBar(); // Initialize the health bar to full
+    }
+
+    private void InitializeComponents()
+    {
+        soundManager = GetComponent<SoundManager>();
     }
 
     // Function to take damage
@@ -36,35 +32,59 @@ public class Health : MonoBehaviour
     {
         if (!CanTakeDamage) return; // Exit if damage is disabled
 
-        _currentHealth -= damageAmount;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maximumHealth);
+        ApplyDamage(damageAmount);
         UpdateHealthBar();
-        _soundManager.PlayTakeDamage();
+        soundManager.PlayTakeDamage();
 
-        if (_currentHealth <= 0)
+        if (IsHealthDepleted())
         {
-            // Game Over logic
-            _soundManager.PlayPlayerDeath();
-            GameOverCanvas.SetActive(true);
-            GameCanvas.SetActive(false);
-            Time.timeScale = 0f;
-
-            // Play Game Over music
-            audioSource.clip = GameOverClip;
-            audioSource.Play();
-
-            // Access the PlayerMovement script and set isDead to true
-            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            HandleGameOver();
         }
+    }
+
+    private void ApplyDamage(float damageAmount)
+    {
+        currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maximumHealth);
+    }
+
+    private bool IsHealthDepleted()
+    {
+        return currentHealth <= 0;
+    }
+
+    private void HandleGameOver()
+    {
+        soundManager.PlayPlayerDeath();
+        ShowGameOverScreen();
+        PlayGameOverMusic();
+    }
+
+    private void ShowGameOverScreen()
+    {
+        gameOverCanvas.SetActive(true);
+        gameCanvas.SetActive(false);
+        Time.timeScale = 0f;
+    }
+
+    private void PlayGameOverMusic()
+    {
+        audioSource.clip = gameOverClip;
+        audioSource.Play();
     }
 
     // Function to add health
     public void AddHealth(float healthAmount)
     {
-        _soundManager.PlayHealthPickup();
-        _currentHealth += healthAmount;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maximumHealth);
+        soundManager.PlayHealthPickup();
+        IncreaseHealth(healthAmount);
         UpdateHealthBar();
+    }
+
+    private void IncreaseHealth(float healthAmount)
+    {
+        currentHealth += healthAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maximumHealth);
     }
 
     // Function to update the health bar UI
@@ -72,7 +92,7 @@ public class Health : MonoBehaviour
     {
         if (healthBar != null)
         {
-            healthBar.fillAmount = _currentHealth / _maximumHealth;
+            healthBar.fillAmount = currentHealth / maximumHealth;
         }
     }
 }

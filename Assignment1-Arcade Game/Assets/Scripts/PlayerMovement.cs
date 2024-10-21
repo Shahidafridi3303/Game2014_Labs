@@ -1,91 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float _movementSpeed = 3; //changing speed
-    [SerializeField] Boundaries _horizontalBoundary, _verticalBoundary;
-    [SerializeField] bool _isTestMobile;
+    [SerializeField] float movementSpeed = 3f; // Speed of character movement
+    [SerializeField] Boundaries horizontalLimits, verticalLimits;
+    [SerializeField] bool simulateMobileInput;
 
-    Camera _camera;
-    Vector2 _destination;
+    Camera mainCamera;
+    Vector2 targetPosition;
+    bool isMobileDevice = true;
 
-    bool _isMobilePlatform = true;
-
-    void Start()
+    void Awake()
     {
-        _camera = Camera.main;
+        mainCamera = Camera.main;
 
-        if (!_isTestMobile)
+        if (!simulateMobileInput)
         {
-            _isMobilePlatform = Application.platform == RuntimePlatform.Android ||
-                                Application.platform == RuntimePlatform.IPhonePlayer;
+            isMobileDevice = Application.platform == RuntimePlatform.Android ||
+                             Application.platform == RuntimePlatform.IPhonePlayer;
         }
     }
 
     void Update()
     {
-        if (_isMobilePlatform)
+        // Handle input based on the platform
+        if (isMobileDevice)
         {
-            GetTouchInput();
+            HandleTouchInput();
         }
         else
         {
-            GetTraditionalInput();
+            HandleKeyboardInput();
         }
 
-        CheckBoundaries();
+        EnforceMovementBoundaries();
     }
 
-    void RotateTowards(Vector2 targetPosition)
+    // Rotate the player toward a given target
+    void FaceTowards(Vector2 destination)
     {
-        Vector2 direction = targetPosition - (Vector2)transform.position;
+        Vector2 direction = destination - (Vector2)transform.position;
         transform.up = direction;
     }
 
-    void Move()
+    // Move player to the new destination
+    void ExecuteMovement()
     {
-        transform.position = _destination;
+        transform.position = targetPosition;
     }
 
-    void GetTraditionalInput()
+    // Get input from keyboard or mouse
+    void HandleKeyboardInput()
     {
-        float xAxis = Input.GetAxisRaw("Horizontal") * _movementSpeed * Time.deltaTime;
-        float yAxis = Input.GetAxisRaw("Vertical") * _movementSpeed * Time.deltaTime;
+        float moveX = Input.GetAxisRaw("Horizontal") * movementSpeed * Time.deltaTime;
+        float moveY = Input.GetAxisRaw("Vertical") * movementSpeed * Time.deltaTime;
 
-        // Apply movement amount to transform
-        _destination = new Vector3(xAxis + transform.position.x, yAxis + transform.position.y, 0);
-        
-        // Move
-        Move();
+        // Calculate new position based on input
+        targetPosition = new Vector3(moveX + transform.position.x, moveY + transform.position.y, 0);
 
-        // Rotate
-        RotateTowards(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        // Move player and rotate toward mouse pointer
+        ExecuteMovement();
+        FaceTowards(mainCamera.ScreenToWorldPoint(Input.mousePosition));
     }
 
-    void GetTouchInput()
+    // Get input from touch screen
+    void HandleTouchInput()
     {
         foreach (Touch touch in Input.touches)
         {
-            _destination = _camera.ScreenToWorldPoint(touch.position);
-            Vector2 _mouseClickLocation = _destination;
-            _destination = Vector2.Lerp(transform.position, _destination, _movementSpeed * Time.deltaTime);
+            targetPosition = mainCamera.ScreenToWorldPoint(touch.position);
+            Vector2 touchPosition = targetPosition;
 
-            // Move 
-            Move();
+            // Move player towards the touch position with smooth interpolation
+            targetPosition = Vector2.Lerp(transform.position, targetPosition, movementSpeed * Time.deltaTime);
 
-            // Rotate
-            RotateTowards(- _mouseClickLocation); // Rotate towards opposite direction
+            ExecuteMovement();
+            FaceTowards(-touchPosition); // Rotate in opposite direction for effect
         }
     }
 
-    void CheckBoundaries()
+    // Ensure the player stays within defined boundaries
+    void EnforceMovementBoundaries()
     {
-        Vector3 position = transform.position;
-        position.x = Mathf.Clamp(position.x, _horizontalBoundary.min, _horizontalBoundary.max);
-        position.y = Mathf.Clamp(position.y, _verticalBoundary.min, _verticalBoundary.max);
-        transform.position = position;
+        Vector3 currentPosition = transform.position;
+        currentPosition.x = Mathf.Clamp(currentPosition.x, horizontalLimits.min, horizontalLimits.max);
+        currentPosition.y = Mathf.Clamp(currentPosition.y, verticalLimits.min, verticalLimits.max);
+        transform.position = currentPosition;
     }
 }

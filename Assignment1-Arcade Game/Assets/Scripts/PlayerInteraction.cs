@@ -1,61 +1,87 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private int _healValue = 20;
-    [SerializeField] private int _score = 25;
-    [SerializeField] private float _boostFiringSpeed = 0.3f;
-    [SerializeField] private float _boostFiringSpeed_Duration = 3.0f;
-    [SerializeField] private GameObject _shield;
+    [SerializeField] private int healValue = 20;
+    [SerializeField] private int scoreValue = 25;
+    [SerializeField] private float boostFiringSpeed = 0.3f;
+    [SerializeField] private float boostFiringSpeedDuration = 3.0f;
+    [SerializeField] private GameObject shield;
 
     private GameManager gameManager;
     private SoundManager soundManager;
 
     private void Start()
     {
+        InitializeManagers();
+    }
+
+    private void InitializeManagers()
+    {
         gameManager = FindObjectOfType<GameManager>();
         soundManager = FindObjectOfType<SoundManager>();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("HealthPickup"))
         {
-            GetComponent<Health>().AddHealth(_healValue);
-            Destroy(collision.gameObject);
+            HandleHealthPickup(collision);
         }
-
-        if (collision.gameObject.CompareTag("ScorePickup"))
+        else if (collision.gameObject.CompareTag("ScorePickup"))
         {
-            soundManager.PlayScorePickup();
-            gameManager.IncrementScore(_score);
-            Destroy(collision.gameObject);
+            HandleScorePickup(collision);
         }
-
-        if (collision.gameObject.CompareTag("SpeedBoost"))
+        else if (collision.gameObject.CompareTag("SpeedBoost"))
         {
-            soundManager.PlayScorePickup();
-            GetComponent<PlayerFire>().BoostFiringSpeed(_boostFiringSpeed, _boostFiringSpeed_Duration);
-            Destroy(collision.gameObject);
+            HandleSpeedBoost(collision);
         }
-
-        if (collision.gameObject.CompareTag("Shield"))
+        else if (collision.gameObject.CompareTag("Shield"))
         {
-            soundManager.PlayHealthPickup();
-            _shield.SetActive(true); // Activate the shield
-            StartCoroutine(DisableDamageForDuration(5.0f)); // Disable damage for 5 seconds
-            Destroy(collision.gameObject);
+            HandleShieldPickup(collision);
         }
     }
 
-    private IEnumerator DisableDamageForDuration(float duration)
+    private void HandleHealthPickup(Collider2D collision)
+    {
+        GetComponent<Health>().AddHealth(healValue);
+        Destroy(collision.gameObject);
+    }
+
+    private void HandleScorePickup(Collider2D collision)
+    {
+        soundManager.PlayScorePickup();
+        gameManager.IncrementScore(scoreValue);
+        Destroy(collision.gameObject);
+    }
+
+    private void HandleSpeedBoost(Collider2D collision)
+    {
+        soundManager.PlayScorePickup();
+        GetComponent<PlayerFire>().BoostFiringSpeed(boostFiringSpeed, boostFiringSpeedDuration);
+        Destroy(collision.gameObject);
+    }
+
+    private void HandleShieldPickup(Collider2D collision)
+    {
+        soundManager.PlayHealthPickup();
+        ActivateShield();
+        StartCoroutine(DisableDamageTemporarily(5.0f));
+        Destroy(collision.gameObject);
+    }
+
+    private void ActivateShield()
+    {
+        shield.SetActive(true);
+    }
+
+    private IEnumerator DisableDamageTemporarily(float duration)
     {
         Health health = GetComponent<Health>();
         health.CanTakeDamage = false; // Disable taking damage
         yield return new WaitForSeconds(duration);
         health.CanTakeDamage = true; // Re-enable taking damage
-        _shield.SetActive(false); // Deactivate the shield
+        shield.SetActive(false); // Deactivate the shield
     }
 }

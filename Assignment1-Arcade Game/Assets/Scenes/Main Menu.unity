@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1356219332}
-  sfx1: {fileID: 8300000, guid: d6afe4ba99428884cb490d48ee604d8c, type: 3}
+  buttonClickClip: {fileID: 8300000, guid: d6afe4ba99428884cb490d48ee604d8c, type: 3}
 --- !u!224 &42324933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3192,7 +3192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  sfx1: {fileID: 0}
+  buttonClickClip: {fileID: 0}
 --- !u!1 &2064362851
 GameObject:
   m_ObjectHideFlags: 0

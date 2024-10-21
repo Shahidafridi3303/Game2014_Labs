@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -11,27 +10,45 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (IsPlayer(collision))
         {
-            Health health = collision.gameObject.GetComponent<Health>();
-            if (health != null && damageCoroutine == null)
+            Health playerHealth = GetPlayerHealth(collision);
+            if (playerHealth != null && damageCoroutine == null)
             {
-                // Start the coroutine to deal damage at intervals
-                damageCoroutine = StartCoroutine(DealDamageOverTime(health));
+                StartDamageCoroutine(playerHealth);
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (IsPlayer(collision))
         {
-            // Stop the coroutine when the collision ends
-            if (damageCoroutine != null)
-            {
-                StopCoroutine(damageCoroutine);
-                damageCoroutine = null;
-            }
+            StopDamageCoroutine();
+        }
+    }
+
+    private bool IsPlayer(Collider2D collision)
+    {
+        return collision.gameObject.CompareTag("Player");
+    }
+
+    private Health GetPlayerHealth(Collider2D collision)
+    {
+        return collision.gameObject.GetComponent<Health>();
+    }
+
+    private void StartDamageCoroutine(Health health)
+    {
+        damageCoroutine = StartCoroutine(DealDamageOverTime(health));
+    }
+
+    private void StopDamageCoroutine()
+    {
+        if (damageCoroutine != null)
+        {
+            StopCoroutine(damageCoroutine);
+            damageCoroutine = null;
         }
     }
 

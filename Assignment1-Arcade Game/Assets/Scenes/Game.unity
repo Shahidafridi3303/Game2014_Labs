@@ -772,8 +772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06de8451dd915b740b482d5e4d105990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnInterval: 2
-  maxSpawnInterval: 5
+  minSpawnInterval: 1
+  maxSpawnInterval: 4
   spawnOnXAxis: 1
   minRange: 2.3
   maxRange: -2.3
@@ -1627,8 +1627,8 @@ Transform:
   m_GameObject: {fileID: 394282508}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.57877636, y: 2.09, z: -0.014271044}
-  m_LocalScale: {x: 1.025, y: 1.1671876, z: 1}
+  m_LocalPosition: {x: -0.5615, y: 2.1227, z: -0.014271044}
+  m_LocalScale: {x: 1.0527471, y: 1.1854664, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 339035428}
@@ -4359,8 +4359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06de8451dd915b740b482d5e4d105990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnInterval: 2
-  maxSpawnInterval: 5
+  minSpawnInterval: 1
+  maxSpawnInterval: 4
   spawnOnXAxis: 0
   minRange: 2.3
   maxRange: -2.3
@@ -5197,8 +5197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06de8451dd915b740b482d5e4d105990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnInterval: 2
-  maxSpawnInterval: 5
+  minSpawnInterval: 1
+  maxSpawnInterval: 4
   spawnOnXAxis: 0
   minRange: 2.3
   maxRange: -2.3
@@ -5448,14 +5448,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7122a5bb7834684d9e415876c62ffbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 3
-  _horizontalBoundary:
+  movementSpeed: 3
+  horizontalLimits:
     max: 2
     min: -2
-  _verticalBoundary:
+  verticalLimits:
     max: 4.19
     min: -4.6
-  _isTestMobile: 1
+  simulateMobileInput: 1
 --- !u!4 &1558451242
 Transform:
   m_ObjectHideFlags: 0
@@ -5522,10 +5522,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5bc2d7970b4615458542b703df75e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 2595103986534395226, guid: b52fa0d08a470a8479a0908f1c212ef9, type: 3}
-  _bulletSpeed: 5
-  _gunOffset: {fileID: 1644336701}
-  _timeBetweenShots: 0.56
+  bulletPrefab: {fileID: 2595103986534395226, guid: b52fa0d08a470a8479a0908f1c212ef9, type: 3}
+  bulletSpeed: 7
+  gunOffset: {fileID: 1644336701}
+  timeBetweenShots: 0.67
 --- !u!114 &1558451245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5538,13 +5538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72dcdefd3e15e1f48b658b932c760970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 1000
-  _maximumHealth: 1000
+  currentHealth: 100
+  maximumHealth: 100
   healthBar: {fileID: 753452618}
-  GameCanvas: {fileID: 1243712176}
-  GameOverCanvas: {fileID: 829659019}
+  gameCanvas: {fileID: 1243712176}
+  gameOverCanvas: {fileID: 829659019}
   audioSource: {fileID: 67390629}
-  GameOverClip: {fileID: 8300000, guid: f69e3814b6cd1a1499c9b380eb9ba596, type: 3}
+  gameOverClip: {fileID: 8300000, guid: f69e3814b6cd1a1499c9b380eb9ba596, type: 3}
 --- !u!50 &1558451246
 Rigidbody2D:
   serializedVersion: 4
@@ -5701,11 +5701,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b442a2a52f349ee47b6d2feaee6d976d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healValue: 10
-  _score: 25
-  _boostFiringSpeed: 0.2
-  _boostFiringSpeed_Duration: 3
-  _shield: {fileID: 1154159064}
+  healValue: 20
+  scoreValue: 25
+  boostFiringSpeed: 0.3
+  boostFiringSpeedDuration: 3
+  shield: {fileID: 1154159064}
 --- !u!114 &1558451250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,9 +5719,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 350
-  _circleSword: {fileID: 308951404}
-  _activationInterval: 7
-  _activeDuration: 3
+  circleSword: {fileID: 308951404}
+  activationInterval: 5
+  activeDuration: 2.7
   damageInterval: 1
 --- !u!1 &1574495486
 GameObject:
@@ -6038,8 +6038,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06de8451dd915b740b482d5e4d105990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnInterval: 2
-  maxSpawnInterval: 5
+  minSpawnInterval: 1
+  maxSpawnInterval: 4
   spawnOnXAxis: 1
   minRange: 2.3
   maxRange: -2.3
@@ -6347,8 +6347,8 @@ Transform:
   m_GameObject: {fileID: 1890419420}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.69, y: -2.59, z: -0.014271044}
-  m_LocalScale: {x: 1.025, y: 1.2401367, z: 1}
+  m_LocalPosition: {x: -0.6758, y: -2.6306, z: -0.014271044}
+  m_LocalScale: {x: 1.0527471, y: 1.259558, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 339035428}
@@ -6436,7 +6436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreTextObject: {fileID: 398871980}
-  FinalScoreTextObject: {fileID: 1934329792}
+  finalScoreTextObject: {fileID: 1934329792}
 --- !u!4 &1893954602
 Transform:
   m_ObjectHideFlags: 0
@@ -6467,7 +6467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 725091519}
-  sfx1: {fileID: 8300000, guid: d6afe4ba99428884cb490d48ee604d8c, type: 3}
+  buttonClickClip: {fileID: 8300000, guid: d6afe4ba99428884cb490d48ee604d8c, type: 3}
 --- !u!1 &1934329792
 GameObject:
   m_ObjectHideFlags: 0

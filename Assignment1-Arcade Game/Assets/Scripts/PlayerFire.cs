@@ -3,52 +3,49 @@ using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _bulletPrefab;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float bulletSpeed;
+    [SerializeField] private Transform gunOffset;
+    [SerializeField] private float timeBetweenShots = 0.67f;
 
-    [SerializeField]
-    private float _bulletSpeed;
+    private SoundManager soundManager;
+    private Coroutine autoFireCoroutine;
 
-    [SerializeField]
-    private Transform _gunOffset;
-
-    [SerializeField]
-    private float _timeBetweenShots = 0.67f;
-
-    private SoundManager _soundManager;
-
-    private Coroutine _autoFireCoroutine;
-    
     void Start()
     {
-        _soundManager = GetComponent<SoundManager>();
+        InitializeComponents();
         StartAutoFire();
     }
 
-    void StartAutoFire()
+    private void InitializeComponents()
     {
-        if (_autoFireCoroutine == null)
+        soundManager = GetComponent<SoundManager>();
+    }
+
+    private void StartAutoFire()
+    {
+        if (autoFireCoroutine == null)
         {
-            _autoFireCoroutine = StartCoroutine(AutoFire());
+            autoFireCoroutine = StartCoroutine(AutoFire());
         }
     }
 
-    void StopAutoFire()
+    private void StopAutoFire()
     {
-        if (_autoFireCoroutine != null)
+        if (autoFireCoroutine != null)
         {
-            StopCoroutine(_autoFireCoroutine);
-            _autoFireCoroutine = null;
+            StopCoroutine(autoFireCoroutine);
+            autoFireCoroutine = null;
         }
     }
 
-    IEnumerator AutoFire()
+    private IEnumerator AutoFire()
     {
         while (true)
         {
             FireBullet();
-            _soundManager.PlayFireSound();
-            yield return new WaitForSeconds(_timeBetweenShots);
+            soundManager.PlayFireSound();
+            yield return new WaitForSeconds(timeBetweenShots);
         }
     }
 
@@ -58,12 +55,7 @@ public class PlayerFire : MonoBehaviour
 
         if (bullet != null)
         {
-            bullet.transform.position = _gunOffset.position;
-            bullet.transform.rotation = transform.rotation;
-            bullet.SetActive(true);
-
-            Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
-            rigidbody.velocity = _bulletSpeed * transform.up;
+            SetBulletProperties(bullet);
         }
         else
         {
@@ -71,15 +63,25 @@ public class PlayerFire : MonoBehaviour
         }
     }
 
-    public void BoostFiringSpeed(float speed, float duration)
+    private void SetBulletProperties(GameObject bullet)
     {
-        _timeBetweenShots = speed;
-        StartCoroutine(ResetFireRate(duration));
+        bullet.transform.position = gunOffset.position;
+        bullet.transform.rotation = transform.rotation;
+        bullet.SetActive(true);
+
+        Rigidbody2D rigidbody = bullet.GetComponent<Rigidbody2D>();
+        rigidbody.velocity = bulletSpeed * transform.up;
     }
 
-    IEnumerator ResetFireRate(float duration)
+    public void BoostFiringSpeed(float newSpeed, float duration)
+    {
+        timeBetweenShots = newSpeed;
+        StartCoroutine(ResetFireRateAfterDuration(duration));
+    }
+
+    private IEnumerator ResetFireRateAfterDuration(float duration)
     {
         yield return new WaitForSeconds(duration);
-        _timeBetweenShots = 0.67f;
+        timeBetweenShots = 0.67f;
     }
 }

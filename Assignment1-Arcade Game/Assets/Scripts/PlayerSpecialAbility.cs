@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PlayerSpecialAbility : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 350f;
-    [SerializeField] private GameObject _circleSword;
-    [SerializeField] private float _activationInterval = 10f;
-    [SerializeField] private float _activeDuration = 3f;
-    [SerializeField] private float damageInterval = 1f; // Time interval between damage ticks
+    [SerializeField] private float rotationSpeed = 350f;
+    [SerializeField] private GameObject circleSword;
+    [SerializeField] private float activationInterval = 10f;
+    [SerializeField] private float activeDuration = 3f;
+    [SerializeField] private float damageInterval = 10f;
 
     private Coroutine damageCoroutine;
     private GameManager gameManager;
@@ -15,40 +15,52 @@ public class PlayerSpecialAbility : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        _circleSword.SetActive(false); // Make sure the sword is initially off
+        circleSword.SetActive(false); // Make sure the sword is initially off
         StartCoroutine(ActivateSwordPeriodically());
     }
 
     private void Update()
     {
-        _circleSword.transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+        RotateCircleSword();
+    }
+
+    private void RotateCircleSword()
+    {
+        circleSword.transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
     }
 
     private IEnumerator ActivateSwordPeriodically()
     {
-        // Activate the sword immediately
-        _circleSword.SetActive(true);
-        yield return new WaitForSeconds(_activeDuration);
-        _circleSword.SetActive(false);
+        ActivateSword();
+        yield return new WaitForSeconds(activeDuration);
+        DeactivateSword();
 
-        // Now start the interval loop for future activations
         while (true)
         {
-            yield return new WaitForSeconds(_activationInterval);
-            _circleSword.SetActive(true);
+            yield return new WaitForSeconds(activationInterval);
+            ActivateSword();
 
-            yield return new WaitForSeconds(_activeDuration);
-            _circleSword.SetActive(false);
+            yield return new WaitForSeconds(activeDuration);
+            DeactivateSword();
         }
+    }
+
+    private void ActivateSword()
+    {
+        circleSword.SetActive(true);
+    }
+
+    private void DeactivateSword()
+    {
+        circleSword.SetActive(false);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (_circleSword.activeSelf && collision.CompareTag("Enemy"))
+        if (IsSwordActive() && collision.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
-            // Only start the coroutine if not already running
             if (damageCoroutine == null)
             {
                 damageCoroutine = StartCoroutine(DealDamageOverTime(enemy));
@@ -60,7 +72,6 @@ public class PlayerSpecialAbility : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Stop the coroutine when the enemy exits the collider
             if (damageCoroutine != null)
             {
                 StopCoroutine(damageCoroutine);
@@ -73,14 +84,17 @@ public class PlayerSpecialAbility : MonoBehaviour
     {
         while (enemy != null && !enemy.isDead)
         {
-            enemy.HandleDeath(); // Apply damage logic in HandleDeath
-
-            // Increment the score in GameManager
+            enemy.HandleDeath();
             gameManager.IncrementScore(5);
 
             yield return new WaitForSeconds(damageInterval);
         }
 
         damageCoroutine = null;
+    }
+
+    private bool IsSwordActive()
+    {
+        return circleSword.activeSelf;
     }
 }

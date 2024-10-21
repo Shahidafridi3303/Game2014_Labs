@@ -15,6 +15,16 @@ public class EnemyPool : MonoBehaviour
 
     private void Awake()
     {
+        SetupSingletonInstance();
+    }
+
+    private void Start()
+    {
+        InitializePools();
+    }
+
+    private void SetupSingletonInstance()
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -26,12 +36,7 @@ public class EnemyPool : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        InitializePool();
-    }
-
-    private void InitializePool()
+    private void InitializePools()
     {
         enemyPool = new List<GameObject>(initialPoolSize);
         largeEnemyPool = new List<GameObject>(initialPoolSize / 2); // Adjust size as needed
@@ -67,12 +72,10 @@ public class EnemyPool : MonoBehaviour
     {
         List<GameObject> pool = isLarge ? largeEnemyPool : enemyPool;
 
-        foreach (GameObject enemy in pool)
+        GameObject enemy = FindInactiveEnemy(pool);
+        if (enemy != null)
         {
-            if (!enemy.activeInHierarchy)
-            {
-                return enemy;
-            }
+            return enemy;
         }
 
         if (canExpand)
@@ -80,6 +83,18 @@ public class EnemyPool : MonoBehaviour
             return isLarge ? AddLargeEnemyToPool() : AddEnemyToPool();
         }
 
+        return null;
+    }
+
+    private GameObject FindInactiveEnemy(List<GameObject> pool)
+    {
+        foreach (GameObject enemy in pool)
+        {
+            if (!enemy.activeInHierarchy)
+            {
+                return enemy;
+            }
+        }
         return null;
     }
 

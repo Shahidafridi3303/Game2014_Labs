@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource audioSource, fireAudioSource, ScorePickupAudioSource;
     public AudioClip Fire, TakeDamage, EnemyKilled, PlayerDeath, ScorePickup, HealthPickup;
 
-    public void PlaySoundsfx(AudioClip Clip)
+    public void PlaySoundEffect(AudioClip Clip)
     {
         audioSource.clip = Clip;
         audioSource.Play();
@@ -21,17 +21,17 @@ public class SoundManager : MonoBehaviour
 
     public void PlayTakeDamage()
     {
-        PlaySoundsfx(TakeDamage);
+        PlaySoundEffect(TakeDamage);
     }
 
     public void PlayPlayerDeath()
     {
-        PlaySoundsfx(PlayerDeath);
+        PlaySoundEffect(PlayerDeath);
     }
 
     public void PlayEnemyKilled()
     {
-        PlaySoundsfx(EnemyKilled);
+        PlaySoundEffect(EnemyKilled);
     }
 
     public void PlayScorePickup()
@@ -42,6 +42,6 @@ public class SoundManager : MonoBehaviour
 
     public void PlayHealthPickup()
     {
-        PlaySoundsfx(HealthPickup);
+        PlaySoundEffect(HealthPickup);
     }
 }

@@ -6,32 +6,39 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public GameObject scoreTextObject;
-    public GameObject FinalScoreTextObject;
+    public GameObject finalScoreTextObject;
 
     private SoundManager soundManager;
-
     private int score = 0;
     private TMP_Text scoreText;
-    private TMP_Text FinalScoreText;
+    private TMP_Text finalScoreText;
+
 
     void Start()
     {
-        soundManager = FindObjectOfType<SoundManager>();
-
-        scoreText = scoreTextObject.GetComponent<TMP_Text>();
-        FinalScoreText = FinalScoreTextObject.GetComponent<TMP_Text>();
-
-        scoreText.text = "Score: " + score.ToString();
-        FinalScoreText.text = "Score: " + score.ToString();
+        InitializeComponents();
+        UpdateScoreText();
     }
 
-    public void IncrementScore(int _score)
+    private void InitializeComponents()
     {
-        score += _score;
-        scoreText.text = "Score: " + score.ToString();
-        FinalScoreText.text = "Score: " + score.ToString();
+        soundManager = FindObjectOfType<SoundManager>();
+        scoreText = scoreTextObject.GetComponent<TMP_Text>();
+        finalScoreText = finalScoreTextObject.GetComponent<TMP_Text>();
+    }
 
+    public void IncrementScore(int increment)
+    {
+        score += increment;
+        UpdateScoreText();
         soundManager.PlayEnemyKilled();
+    }
+
+    private void UpdateScoreText()
+    {
+        string scoreString = "Score: " + score.ToString();
+        scoreText.text = scoreString;
+        finalScoreText.text = scoreString;
     }
 
     public void GameOver()

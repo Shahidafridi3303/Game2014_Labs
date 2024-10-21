@@ -7,11 +7,16 @@ using UnityEngine.SocialPlatforms;
 public class MainMenu : MonoBehaviour
 {
     public AudioSource audioSource;
-    public AudioClip sfx1;//sfx2, sfx3;
+    public AudioClip buttonClickClip;//sfx2, sfx3;
 
     public void PlayButtonSound()
     {
-        audioSource.clip = sfx1;
+        PlayClip(buttonClickClip);
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        audioSource.clip = clip;
         audioSource.Play();
     }
 

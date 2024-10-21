@@ -9,7 +9,11 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        // Cache the reference to the GameManager for future use
+        InitializeComponents();
+    }
+
+    private void InitializeComponents()
+    {
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -20,16 +24,15 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the bullet hit an enemy
+        HandleCollision(collision);
+    }
+
+    private void HandleCollision(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Tell the enemy to handle its own destruction logic
             collision.gameObject.GetComponent<Enemy>().HandleDeath();
-
-            // Increment the score in GameManager
             gameManager.IncrementScore(5);
-
-            // Return the bullet to the pool instead of destroying it
             BulletPool.Instance.ReturnBulletToPool(gameObject);
         }
     }
@@ -37,11 +40,15 @@ public class Bullet : MonoBehaviour
     private void CheckBoundaries()
     {
         Vector3 position = transform.position;
-        if (position.x < horizontalBoundary.min || position.x > horizontalBoundary.max ||
-            position.y < verticalBoundary.min || position.y > verticalBoundary.max)
+        if (IsOutOfBoundaries(position))
         {
-            // Return the bullet to the pool instead of destroying it
             BulletPool.Instance.ReturnBulletToPool(gameObject);
         }
+    }
+
+    private bool IsOutOfBoundaries(Vector3 position)
+    {
+        return position.x < horizontalBoundary.min || position.x > horizontalBoundary.max ||
+               position.y < verticalBoundary.min || position.y > verticalBoundary.max;
     }
 }

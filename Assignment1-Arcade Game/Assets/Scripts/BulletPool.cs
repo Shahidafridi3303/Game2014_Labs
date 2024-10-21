@@ -13,6 +13,16 @@ public class BulletPool : MonoBehaviour
 
     private void Awake()
     {
+        SetupSingletonInstance();
+    }
+
+    private void Start()
+    {
+        InitializeBulletPool();
+    }
+
+    private void SetupSingletonInstance()
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -24,12 +34,7 @@ public class BulletPool : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        InitializePool();
-    }
-
-    private void InitializePool()
+    private void InitializeBulletPool()
     {
         bulletPool = new List<GameObject>(initialPoolSize);
         for (int i = 0; i < initialPoolSize; i++)
@@ -48,12 +53,10 @@ public class BulletPool : MonoBehaviour
 
     public GameObject GetPooledBullet()
     {
-        foreach (GameObject bullet in bulletPool)
+        GameObject bullet = FindInactiveBullet();
+        if (bullet != null)
         {
-            if (!bullet.activeInHierarchy)
-            {
-                return bullet;
-            }
+            return bullet;
         }
 
         if (canExpand)
@@ -61,6 +64,18 @@ public class BulletPool : MonoBehaviour
             return AddBulletToPool();
         }
 
+        return null;
+    }
+
+    private GameObject FindInactiveBullet()
+    {
+        foreach (GameObject bullet in bulletPool)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+        }
         return null;
     }
 

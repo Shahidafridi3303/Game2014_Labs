@@ -62,7 +62,3 @@ public class BulletManager : MonoBehaviour
         _bulletPoolDictionary[type].Enqueue(bullet);
     }
 }
-
-
-
-

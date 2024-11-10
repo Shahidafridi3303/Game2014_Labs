@@ -24,10 +24,19 @@ public class PlayerBehavior : MonoBehaviour
     float _groundingRadius;
     [SerializeField]
     LayerMask _groundLayerMask;
+
+    Joystick _leftJoystick;
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    float _leftJoystickVerticalTreshold;
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        if (GameObject.Find("OnScreenControllers"))
+        {
+            _leftJoystick = GameObject.Find("LeftJoystick").GetComponent<Joystick>();
+        }
     }
 
     // Update is called once per frame
@@ -42,6 +51,12 @@ public class PlayerBehavior : MonoBehaviour
     void Move()
     {
         float xInput = Input.GetAxisRaw("Horizontal");
+        
+        if (_leftJoystick)
+        {
+            xInput = _leftJoystick.Horizontal;
+            //Debug.Log(_leftJoystick.Horizontal + " - " + _leftJoystick.Vertical);
+        }
 
         if (xInput != 0.0f)
         {
@@ -51,6 +66,7 @@ public class PlayerBehavior : MonoBehaviour
                 force *= _airFactor;
             }
             _rigidbody.AddForce(force);
+            GetComponent<SpriteRenderer>().flipX = (force.x < 0.0f);
             if (Mathf.Abs(_rigidbody.velocity.x) > _horizontalSpeedLimit)
             {
                 float updatedXvalue = Mathf.Clamp(_rigidbody.velocity.x, _horizontalSpeedLimit, _horizontalSpeedLimit);
@@ -63,8 +79,13 @@ public class PlayerBehavior : MonoBehaviour
     void Jump()
     {
         var jumpPressed = Input.GetAxisRaw("Jump");
+        
+        if (_leftJoystick)
+        {
+            jumpPressed = _leftJoystick.Vertical;
+        }
 
-        if (_isGrounded && jumpPressed != 0.0f)
+        if (_isGrounded && jumpPressed > _leftJoystickVerticalTreshold)
         {
             _rigidbody.AddForce(Vector2.up * _verticalForce);
         }

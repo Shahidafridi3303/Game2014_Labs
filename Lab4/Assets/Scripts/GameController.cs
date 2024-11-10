@@ -6,12 +6,12 @@ public class GameController : MonoBehaviour
 {
     GameObject _onScreenControllers;
     [SerializeField] 
-    private bool _isTesting;
+    bool _isTesting;
     // Start is called before the first frame update
     void Start()
     {
         _onScreenControllers = GameObject.Find("OnScreenControllers");
-        if (_isTesting)
+        if (!_isTesting)
         {
             _onScreenControllers.SetActive(Application.platform != RuntimePlatform.WindowsEditor &&
                                         Application.platform != RuntimePlatform.WindowsPlayer);

@@ -92,7 +92,7 @@ public class PlayerBehavior : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = (force.x < 0.0f);
             if (Mathf.Abs(_rigidbody.velocity.x) > _horizontalSpeedLimit)
             {
-                float updatedXvalue = Mathf.Clamp(_rigidbody.velocity.x, _horizontalSpeedLimit, _horizontalSpeedLimit);
+                float updatedXvalue = Mathf.Clamp(_rigidbody.velocity.x,-_horizontalSpeedLimit, _horizontalSpeedLimit);
                 _rigidbody.velocity = new Vector2(updatedXvalue, _rigidbody.velocity.y);
                 //_rigidbody.velocity = new Vector2(Vector2.ClampMagnitude(_rigidbody.velocity, _horizontalSpeedLimit).x, _rigidbody.velocity.y);
             }

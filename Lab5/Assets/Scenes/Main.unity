@@ -5092,6 +5092,10 @@ PrefabInstance:
       value: Ant Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7240878507655498180, guid: 8dca3b5de65169a428bc74fe31ef555d, type: 3}
+      propertyPath: _bullet
+      value: 
+      objectReference: {fileID: 789859527364583044, guid: 4a959164b97baf64b9145b6bc914fe71, type: 3}
+    - target: {fileID: 7240878507655498180, guid: 8dca3b5de65169a428bc74fe31ef555d, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}

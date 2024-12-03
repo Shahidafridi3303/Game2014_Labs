@@ -8,7 +8,6 @@ public class BulletBehaviour : MonoBehaviour, IDamage
     [SerializeField] float _speed = 10;
     [SerializeField] int _damage = 5;
 
-
     public int Damage()
     {
         return _damage;
@@ -17,7 +16,7 @@ public class BulletBehaviour : MonoBehaviour, IDamage
     // Start is called before the first frame update
     void Start()
     {
-        _rigidbody = GetComponentInChildren<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         Vector3 directionToTarget = (FindObjectOfType<PlayerBehavior>().transform.position - transform.position).normalized;
         _rigidbody.AddForce(directionToTarget * _speed, ForceMode2D.Impulse);
         Invoke("DestroyBullet", 1.5f);

@@ -131,6 +131,8 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+            Vector3 damageTakingDirection = Vector3.up;
+            _rigidbody.AddForce(damageTakingDirection * 5, ForceMode2D.Impulse);
             _healthBar.TakeDamage(collision.GetComponent<IDamage>().Damage());
         }
     }

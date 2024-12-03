@@ -27,7 +27,7 @@ public class PlayerDetection : MonoBehaviour
             RaycastHit2D hit = Physics2D.Linecast(transform.position, _player.transform.position, _layerMask);
             Vector2 playerDirection = _player.transform.position - transform.position;
             float playerDirectionValue = (playerDirection.x > 0) ? 1 : -1;
-            float enemyLookingDirectionValue = (transform.localScale.x > 0) ? -1 : 1;
+            float enemyLookingDirectionValue = (transform.parent.localScale.x > 0) ? -1 : 1;
 
             _LOS = (hit.collider.name == "Player") && playerDirectionValue == enemyLookingDirectionValue;
         }

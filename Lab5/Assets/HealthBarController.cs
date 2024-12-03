@@ -8,14 +8,15 @@ public class HealthBarController : MonoBehaviour
     int _value;
     [SerializeField]
     int _maxHealth;
-
+    [SerializeField]
     Slider _slider;
 
-    [SerializeField] bool _gameOverCondition = false;
+    [SerializeField] 
+    bool _gameOverCondition = false;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        _slider = GetComponent<Slider>();
+        _slider = GetComponentInChildren<Slider>();
         _slider.maxValue = _maxHealth;
         _slider.value = _maxHealth;
     }

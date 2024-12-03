@@ -13,7 +13,7 @@ public class EnemyRangeAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _playerDetection = GetComponent<PlayerDetection>();
+        _playerDetection = GetComponentInChildren<PlayerDetection>();
     }
 
     // Update is called once per frame

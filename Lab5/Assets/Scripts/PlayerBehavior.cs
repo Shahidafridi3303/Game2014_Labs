@@ -28,6 +28,8 @@ public class PlayerBehavior : MonoBehaviour
 
     Animator _animator;
     Joystick _leftJoystick;
+    private HealthBarController _healthBar;
+
     [SerializeField]
     [Range(0.0f, 1.0f)]
     float _leftJoystickVerticalTreshold;
@@ -38,6 +40,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _healthBar = GetComponentInChildren<HealthBarController>();
 
         if (GameObject.Find("OnScreenControllers"))
         {
@@ -121,6 +124,14 @@ public class PlayerBehavior : MonoBehaviour
         if (_isGrounded && jumpPressed > _leftJoystickVerticalTreshold)
         {
             _rigidbody.AddForce(Vector2.up * _verticalForce, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            _healthBar.TakeDamage(collision.GetComponent<IDamage>().Damage());
         }
     }
 

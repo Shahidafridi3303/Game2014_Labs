@@ -22,10 +22,14 @@ public class EnemyBehavior : MonoBehaviour
 
     [SerializeField]
     LayerMask _layerMask;
+
+    private PlayerDetection _playerDetection;
+    private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _playerDetection = GetComponent<PlayerDetection>();
+        _animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -38,13 +42,14 @@ public class EnemyBehavior : MonoBehaviour
         {
             ChangeDirection();
         }
-
-        if (_IsGrounded)
+        _animator.SetInteger("State", (int)AnimationStates.IDLE);
+        if (_IsGrounded && !_playerDetection.GetLOSStatus())
             Move();
     }
 
     void Move()
     {
+        _animator.SetInteger("State", (int)AnimationStates.RUN);
         transform.position += Vector3.left * transform.localScale.x * _speed;
     }
 

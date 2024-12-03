@@ -33,6 +33,11 @@ public class PlayerDetection : MonoBehaviour
         }
     }
 
+    public bool GetLOSStatus()
+    {
+        return _LOS;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -50,5 +55,6 @@ public class PlayerDetection : MonoBehaviour
             Debug.DrawLine(transform.position, _player.transform.position, color);
         }
     }
+    
 }
  

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6849189968062304044}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FrontObstaclePoint
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
@@ -44,8 +44,11 @@ GameObject:
   - component: {fileID: 7023238481413168795}
   - component: {fileID: 384574600885080124}
   - component: {fileID: 450222997529992628}
+  - component: {fileID: 4174250282293831358}
   - component: {fileID: 8852307358160993459}
-  m_Layer: 0
+  - component: {fileID: 2960884713794017664}
+  - component: {fileID: 7240878507655498180}
+  m_Layer: 10
   m_Name: Ant Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,6 +208,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &4174250282293831358
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717950594820166164}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 10
 --- !u!114 &8852307358160993459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +262,38 @@ MonoBehaviour:
   _frontObstaclePoint: {fileID: 6849189968062304044}
   _layerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
+--- !u!114 &2960884713794017664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717950594820166164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6a4436f5beaf141b1203e8d2de35ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _IsSensing: 0
+  _LOS: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 960
+--- !u!114 &7240878507655498180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717950594820166164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402ad64fee605b2429f9e2d53d0b0942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireDelay: 30
+  _bullet: {fileID: 0}
 --- !u!1 &7896414710349394977
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 369612800957899586}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FrontGroundPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -265,7 +334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7061266030924150306}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BaseCenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
